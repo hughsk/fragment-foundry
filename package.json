@@ -1,0 +1,19 @@
+{
+  "name": "fragment-foundry",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node lib/serve",
+    "bundle": "node lib/build",
+    "preview": "npm run bundle && serve ."
+  },
+  "dependencies": {
+    "browserify": "^13.1.0",
+    "cheerio": "^0.20.0",
+    "course": "0.0.1",
+    "marked": "^0.3.6",
+    "watchify": "^3.7.0"
+  },
+  "devDependencies": {
+    "serve": "^1.4.0"
+  }
+}

@@ -1,0 +1,86 @@
+@import 'https://fonts.googleapis.com/css?family=Merriweather:300,300i,400|Roboto:500,700';
+
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:0 0}body{line-height:1}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}nav ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:0 0}ins{text-decoration:none}ins,mark{background-color:#ff9;color:#000}mark{font-style:italic;font-weight:700}del{text-decoration:line-through}abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help}table{border-collapse:collapse;border-spacing:0}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}input,select{vertical-align:middle}
+
+body {
+  font-family: Merriweather, serif;
+  font-weight: lighter;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Roboto, sans-serif;
+}
+
+nav {
+  background: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5rem;
+  border-bottom: 1px solid black;
+}
+
+nav h1 {
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 5rem;
+  margin-left: 2rem;
+}
+
+main {
+  width: 30rem;
+  margin: 2rem;
+  padding-top: 5rem;
+  line-height: 1.7em;
+  font-size: 1rem;
+}
+
+main > :first-child {
+  margin-top: 0;
+}
+
+main h2 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  margin-top: 2rem;
+}
+
+main p {
+  margin-bottom: 1rem;
+}
+
+figure.canvas {
+  position: fixed;
+  border: 1px solid #000;
+  border-radius: 0.2rem;
+  background: white;
+  left: 35rem;
+  top: 8rem;
+  width: 400px; height: 400px;
+  padding: 3px;
+  transform: perspective(1300px) rotateY(0deg);
+  transform-style: preserve-3d;
+  transform-origin: 0% 50%;
+  transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backface-visibility: hidden;
+}
+
+figure.canvas canvas {
+  border-radius: 0.2rem;
+  background: #efefef;
+}
+
+figure.canvas figcaption {
+  font-size: 0.7rem;
+  line-height: 1.5em;
+  margin-top: 1rem;
+  font-style: italic;
+}
+
+.canvas-hidden figure.canvas {
+  transform-style: preserve-3d;
+  transform-origin: 0% 50%;
+  transform: perspective(1300px) rotateY(90deg);
+}

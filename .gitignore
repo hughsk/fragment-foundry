@@ -1,0 +1,4 @@
+/bundle.js
+/chapters/*.html
+node_modules
+npm-debug.log
