@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/index.css">
+  </head>
+  <body class="canvas-hidden" data-chapter="{{name}}">
+    <nav>
+      <h1>{{title}}</h1>
+    </nav>
+    <figure id="display" class="canvas">
+      <canvas width="400" height="400"></canvas>
+      <figcaption></figcaption>
+    </figure>
+    <main>
+      {{html}}
+    </main>
+    <script type="text/javascript" src="/bundle.js"></script>
+  </body>
+</html>
