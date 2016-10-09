@@ -19,6 +19,7 @@ nav {
   right: 0;
   height: 5rem;
   border-bottom: 1px solid black;
+  z-index: 9999;
 }
 
 nav h1 {
@@ -68,8 +69,7 @@ figure.canvas {
 }
 
 figure.canvas canvas {
-  border-radius: 0.2rem;
-  background: #efefef;
+  backface-visibility: hidden;
 }
 
 figure.canvas figcaption {
@@ -77,10 +77,20 @@ figure.canvas figcaption {
   line-height: 1.5em;
   margin-top: 1rem;
   font-style: italic;
+  backface-visibility: hidden;
 }
 
 .canvas-hidden figure.canvas {
   transform-style: preserve-3d;
   transform-origin: 0% 50%;
   transform: perspective(1300px) rotateY(90deg);
+}
+
+.CodeMirror {
+  height: auto;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.4em;
+  font-size: 1.0rem;
+  background-image: none!important;
 }

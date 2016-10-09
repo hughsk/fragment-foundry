@@ -6,10 +6,27 @@
     "bundle": "node lib/build",
     "preview": "npm run bundle && serve ."
   },
+  "browserify": {
+    "transform": [
+      "brfs"
+    ]
+  },
   "dependencies": {
+    "a-big-triangle": "^1.0.2",
+    "brfs": "^1.4.3",
     "browserify": "^13.1.0",
     "cheerio": "^0.20.0",
+    "codemirror": "^5.16.0",
     "course": "0.0.1",
+    "defaultcss": "^1.1.1",
+    "escape-html": "^1.0.3",
+    "frame-debounce": "^1.0.1",
+    "gl-shader": "^4.2.0",
+    "glsl-token-string": "^1.0.1",
+    "glsl-tokenizer": "^2.1.2",
+    "highlights": "^1.4.1",
+    "insert-css": "^1.0.0",
+    "language-glsl": "^2.0.1",
     "marked": "^0.3.6",
     "watchify": "^3.7.0"
   },
