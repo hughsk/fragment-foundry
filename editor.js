@@ -16,12 +16,6 @@ function createEditor (element, content, info) {
   element.parentNode.insertBefore(container, element)
   element.parentNode.removeChild(element)
 
-  var editor = new CodeMirror(container, {
-    value: content,
-    theme: 'mdn-like',
-    viewportMargin: Infinity
-  })
-
   var shader
   var vert = `
     precision mediump float;
@@ -35,19 +29,42 @@ function createEditor (element, content, info) {
     }
   `
 
-  editor.on('change', function () {
-    if (!shader) return
-    shader.update(vert, 'precision mediump float;\n' + editor.getValue())
-  })
+  var shape = []
+  var currTime = 0
+  var lastTime = 0
 
   display.register(container, {}, function (gl) {
-    shader = shader || Shader(gl, vert, 'precision mediump float;\n' + editor.getValue())
+    shader = shader || Shader(gl, vert, getFrag())
+    lastTime = Date.now()
   }, function (gl) {
+    currTime -= lastTime - (lastTime = Date.now())
+
+    shape[0] = gl.canvas.width
+    shape[1] = gl.canvas.height
     shader.bind()
+    shader.uniforms.iResolution = shape
+    shader.uniforms.iGlobalTime = currTime / 1000
     gl.clearColor(0, 0, 0, 1)
     gl.clear(gl.COLOR_BUFFER_BIT)
     triangle(gl)
   }, function (gl) {
 
   })
+
+  if (!info.display) return
+
+  var editor = new CodeMirror(container, {
+    value: content,
+    theme: 'mdn-like',
+    viewportMargin: Infinity
+  })
+
+  editor.on('change', function () {
+    if (!shader) return
+    shader.update(vert, 'precision mediump float;\n' + editor.getValue())
+  })
+
+  function getFrag () {
+    return 'precision mediump float;\n' + (editor ? editor.getValue() : content)
+  }
 }

@@ -28,6 +28,7 @@
     "insert-css": "^1.0.0",
     "language-glsl": "^2.0.1",
     "marked": "^0.3.6",
+    "unescape": "^0.1.1",
     "watchify": "^3.7.0"
   },
   "devDependencies": {
