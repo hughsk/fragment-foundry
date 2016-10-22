@@ -2,10 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Hello World! | Fragment Foundry</title>
+    <title>Basic Syntax | Fragment Foundry</title>
     <link rel="stylesheet" href="../index.css">
   </head>
-  <body class="canvas-hidden" data-chapter="01-hello-world">
+  <body class="canvas-hidden" data-chapter="02-syntax">
     <header>
       <h1>
         <a class="nav-toggle" href="#">
@@ -13,7 +13,7 @@
           <div class="notch mid"></div>
           <div class="notch bot"></div>
         </a>
-        Hello World!
+        Basic Syntax
       </h1>
     </header>
     <nav>
@@ -104,14 +104,9 @@
         <div class="checker"><span>Waiting...</span></div>
       </div>
       <main class="text">
-<p>Hey, welcome! This is a self-guided workshop introducing you to the magic of <em>fragment shaders</em>.</p>
-<h2 id="wait-shaders-">Wait, Shaders?</h2>
-<!-- Shaders are tiny programs that run on your graphics card (GPU, for short). Most programs we write and/or use today run on the CPU -->
-<h2 id="exercise">Exercise</h2>
-<p>Your first task is to change this shader from drawing red to green.</p>
 </main>
     </div>
-    <pre id="chapter-data" hidden>{"prefix":"","suffix":"","question":"//\n// Change this shader (displayed in the top-left box) to\n// make it green instead of red. The correct answer's result\n// is displayed in the bottom-left box.\n//\n// Note you might want to read through the information on the\n// right to get familiar with the basics first!\n//\nvec4 green = vec4(0, 1, 0, 1);\nvec4 blue = vec4(0, 0, 1, 1);\nvec4 red = vec4(1, 0, 0, 1);\n\nvoid main() {\n  gl_FragColor = red;\n}\n","solution":"vec4 green = vec4(0, 1, 0, 1);\nvec4 blue = vec4(0, 0, 1, 1);\nvec4 red = vec4(1, 0, 0, 1);\n\nvoid main() {\n  gl_FragColor = green;\n}\n"}</pre>
+    <pre id="chapter-data" hidden>{"prefix":"","suffix":"","question":"","solution":""}</pre>
     <script type="text/javascript" src="../bundle.js"></script>
   </body>
 </html>

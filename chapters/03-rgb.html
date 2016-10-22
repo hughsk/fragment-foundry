@@ -2,10 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Hello World! | Fragment Foundry</title>
+    <title>RGB Color | Fragment Foundry</title>
     <link rel="stylesheet" href="../index.css">
   </head>
-  <body class="canvas-hidden" data-chapter="01-hello-world">
+  <body class="canvas-hidden" data-chapter="03-rgb">
     <header>
       <h1>
         <a class="nav-toggle" href="#">
@@ -13,7 +13,7 @@
           <div class="notch mid"></div>
           <div class="notch bot"></div>
         </a>
-        Hello World!
+        RGB Color
       </h1>
     </header>
     <nav>
@@ -104,14 +104,9 @@
         <div class="checker"><span>Waiting...</span></div>
       </div>
       <main class="text">
-<p>Hey, welcome! This is a self-guided workshop introducing you to the magic of <em>fragment shaders</em>.</p>
-<h2 id="wait-shaders-">Wait, Shaders?</h2>
-<!-- Shaders are tiny programs that run on your graphics card (GPU, for short). Most programs we write and/or use today run on the CPU -->
-<h2 id="exercise">Exercise</h2>
-<p>Your first task is to change this shader from drawing red to green.</p>
 </main>
     </div>
-    <pre id="chapter-data" hidden>{"prefix":"","suffix":"","question":"//\n// Change this shader (displayed in the top-left box) to\n// make it green instead of red. The correct answer's result\n// is displayed in the bottom-left box.\n//\n// Note you might want to read through the information on the\n// right to get familiar with the basics first!\n//\nvec4 green = vec4(0, 1, 0, 1);\nvec4 blue = vec4(0, 0, 1, 1);\nvec4 red = vec4(1, 0, 0, 1);\n\nvoid main() {\n  gl_FragColor = red;\n}\n","solution":"vec4 green = vec4(0, 1, 0, 1);\nvec4 blue = vec4(0, 0, 1, 1);\nvec4 red = vec4(1, 0, 0, 1);\n\nvoid main() {\n  gl_FragColor = green;\n}\n"}</pre>
+    <pre id="chapter-data" hidden>{"prefix":"uniform vec2 iResolution;\n","suffix":"float aastep(float threshold, float value) {\n  #ifdef GL_OES_standard_derivatives\n    float afwidth = length(vec2(dFdx(value), dFdy(value))) * 0.70710678118654757;\n    return smoothstep(threshold-afwidth, threshold+afwidth, value);\n  #else\n    return step(threshold, value);\n  #endif\n}\n\n#define PI 3.14159265359\nvec2 rt (float r, float a) {\n  a *= PI * 2.0;\n  return r * vec2(sin(a), cos(a));\n}\n\nvec2 squareFrame(vec2 screenSize, vec2 coord) {\n  vec2 position = 2.0 * (coord.xy / screenSize.xy) - 1.0;\n  if (screenSize.x > screenSize.y) {\n    position.x *= screenSize.x / screenSize.y;\n  } else {\n    position.y *= screenSize.y / screenSize.x;\n  }\n  return position;\n}\n\nvoid main() {\n  vec3 color = vec3(0.025, 0.05, 0.1);\n  vec2 p = squareFrame(iResolution, gl_FragCoord.xy);\n\n  color = mix(color, red, aastep(0.0, 0.1 - length(p - rt(0.5, 1.0 / 3.0))));\n  color = mix(color, green, aastep(0.0, 0.1 - length(p - rt(0.5, 2.0 / 3.0))));\n  color = mix(color, blue, aastep(0.0, 0.1 - length(p - rt(0.5, 3.0 / 3.0))));\n\n  color = mix(color, yellow, aastep(0.0, 0.125 - length(p - rt(0.5, 1.5 / 3.0))));\n  color = mix(color, cyan, aastep(0.0, 0.125 - length(p - rt(0.5, 2.5 / 3.0))));\n  color = mix(color, magenta, aastep(0.0, 0.125 - length(p - rt(0.5, 3.5 / 3.0))));\n\n  color = mix(color, white, aastep(0.0, 0.25 - length(p)));\n\n  gl_FragColor = vec4(color, 1);\n}\n","question":"//\n// Fix the color variables listed here so that their\n// values match their name.\n//\n// You should only need a combination of 0s and 1s :)\n//\n\nvec3 red = vec3(1, 1, 1);\nvec3 green = vec3(1, 1, 1);\nvec3 blue = vec3(1, 1, 1);\nvec3 cyan = vec3(1, 1, 1);\nvec3 magenta = vec3(1, 1, 1);\nvec3 yellow = vec3(1, 1, 1);\nvec3 white = vec3(1, 1, 1);\n","solution":"vec3 red = vec3(1, 0, 0);\nvec3 green = vec3(0, 1, 0);\nvec3 blue = vec3(0, 0, 1);\nvec3 cyan = vec3(0, 1, 1);\nvec3 magenta = vec3(1, 0, 1);\nvec3 yellow = vec3(1, 1, 0);\nvec3 white = vec3(1, 1, 1);\n"}</pre>
     <script type="text/javascript" src="../bundle.js"></script>
   </body>
 </html>

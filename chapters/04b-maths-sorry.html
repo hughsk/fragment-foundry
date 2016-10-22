@@ -2,10 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Hello World! | Fragment Foundry</title>
+    <title>Maths; Sorry! | Fragment Foundry</title>
     <link rel="stylesheet" href="../index.css">
   </head>
-  <body class="canvas-hidden" data-chapter="01-hello-world">
+  <body class="canvas-hidden" data-chapter="04b-maths-sorry">
     <header>
       <h1>
         <a class="nav-toggle" href="#">
@@ -13,7 +13,7 @@
           <div class="notch mid"></div>
           <div class="notch bot"></div>
         </a>
-        Hello World!
+        Maths; Sorry!
       </h1>
     </header>
     <nav>
@@ -104,14 +104,9 @@
         <div class="checker"><span>Waiting...</span></div>
       </div>
       <main class="text">
-<p>Hey, welcome! This is a self-guided workshop introducing you to the magic of <em>fragment shaders</em>.</p>
-<h2 id="wait-shaders-">Wait, Shaders?</h2>
-<!-- Shaders are tiny programs that run on your graphics card (GPU, for short). Most programs we write and/or use today run on the CPU -->
-<h2 id="exercise">Exercise</h2>
-<p>Your first task is to change this shader from drawing red to green.</p>
 </main>
     </div>
-    <pre id="chapter-data" hidden>{"prefix":"","suffix":"","question":"//\n// Change this shader (displayed in the top-left box) to\n// make it green instead of red. The correct answer's result\n// is displayed in the bottom-left box.\n//\n// Note you might want to read through the information on the\n// right to get familiar with the basics first!\n//\nvec4 green = vec4(0, 1, 0, 1);\nvec4 blue = vec4(0, 0, 1, 1);\nvec4 red = vec4(1, 0, 0, 1);\n\nvoid main() {\n  gl_FragColor = red;\n}\n","solution":"vec4 green = vec4(0, 1, 0, 1);\nvec4 blue = vec4(0, 0, 1, 1);\nvec4 red = vec4(1, 0, 0, 1);\n\nvoid main() {\n  gl_FragColor = green;\n}\n"}</pre>
+    <pre id="chapter-data" hidden>{"prefix":"uniform float iGlobalTime;\nuniform vec2 iResolution;\n\nfloat shape_line(vec2 p, vec2 a, vec2 b);\nfloat shape_segment(vec2 p, vec2 a, vec2 b);\nfloat aastep(float threshold, float value);\n","suffix":"void main() {\n  vec2 uv = 2.0 * gl_FragCoord.xy / iResolution - 1.0;\n  vec2 p1 = vec2(cos(iGlobalTime * 0.05), sin(iGlobalTime * 0.05)) * 0.9;\n  vec2 p2 = vec2(cos(iGlobalTime * 0.06), sin(iGlobalTime * 0.06)) * -0.3;\n  vec2 p3 = midpoint(p1, p2);\n\n  float d = shape_segment(uv, p1, p2) - 0.01;\n  d = min(d, length(uv - p1) - 0.05);\n  d = min(d, length(uv - p2) - 0.05);\n  d = min(d, length(uv - p3) - 0.1);\n\n  float d2 = 5.0;\n  d2 = min(d2, shape_line(uv, vec2(1, 0), vec2(-1, 0)) - 0.005);\n  d2 = min(d2, shape_line(uv, vec2(0, 1), vec2(0, -1)) - 0.005);\n\n  vec3 color = vec3(1);\n\n  color -= 1.0 - aastep(0.0, d);\n  color -= (1.0 - aastep(0.0, d2)) * vec3(0, 0.35, 0.4);\n  gl_FragColor = vec4(color, 1);\n}\n\nfloat shape_line(vec2 p, vec2 a, vec2 b) {\n  vec2 dir = b - a;\n  return abs(dot(normalize(vec2(dir.y, -dir.x)), a - p));\n}\n\nfloat aastep(float threshold, float value) {\n  #ifdef GL_OES_standard_derivatives\n    float afwidth = length(vec2(dFdx(value), dFdy(value))) * 0.70710678118654757;\n    return smoothstep(threshold-afwidth, threshold+afwidth, value);\n  #else\n    return step(threshold, value);\n  #endif\n}\n\nfloat shape_segment(vec2 p, vec2 a, vec2 b) {\n  float d = shape_line(p, a, b);\n  float d0 = dot(p - b, b - a);\n  float d1 = dot(p - a, b - a);\n  return d1 < 0.0 ? length(a - p) : d0 > 0.0 ? length(b - p) : d;\n}\n","question":"//\n// Get the midpoint of `p1` and `p2` *without* using\n// vec2() or any swizzling :O\n//\nvec2 midpoint(vec2 p1, vec2 p2) {\n  return vec2(0.0);\n}\n","solution":"vec2 midpoint(vec2 p1, vec2 p2) {\n  return (p1 + p2) * 0.5;\n}\n"}</pre>
     <script type="text/javascript" src="../bundle.js"></script>
   </body>
 </html>

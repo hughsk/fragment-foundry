@@ -2,10 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Hello World! | Fragment Foundry</title>
+    <title>Combining Shapes | Fragment Foundry</title>
     <link rel="stylesheet" href="../index.css">
   </head>
-  <body class="canvas-hidden" data-chapter="01-hello-world">
+  <body class="canvas-hidden" data-chapter="09-combining-shapes">
     <header>
       <h1>
         <a class="nav-toggle" href="#">
@@ -13,7 +13,7 @@
           <div class="notch mid"></div>
           <div class="notch bot"></div>
         </a>
-        Hello World!
+        Combining Shapes
       </h1>
     </header>
     <nav>
@@ -104,14 +104,9 @@
         <div class="checker"><span>Waiting...</span></div>
       </div>
       <main class="text">
-<p>Hey, welcome! This is a self-guided workshop introducing you to the magic of <em>fragment shaders</em>.</p>
-<h2 id="wait-shaders-">Wait, Shaders?</h2>
-<!-- Shaders are tiny programs that run on your graphics card (GPU, for short). Most programs we write and/or use today run on the CPU -->
-<h2 id="exercise">Exercise</h2>
-<p>Your first task is to change this shader from drawing red to green.</p>
 </main>
     </div>
-    <pre id="chapter-data" hidden>{"prefix":"","suffix":"","question":"//\n// Change this shader (displayed in the top-left box) to\n// make it green instead of red. The correct answer's result\n// is displayed in the bottom-left box.\n//\n// Note you might want to read through the information on the\n// right to get familiar with the basics first!\n//\nvec4 green = vec4(0, 1, 0, 1);\nvec4 blue = vec4(0, 0, 1, 1);\nvec4 red = vec4(1, 0, 0, 1);\n\nvoid main() {\n  gl_FragColor = red;\n}\n","solution":"vec4 green = vec4(0, 1, 0, 1);\nvec4 blue = vec4(0, 0, 1, 1);\nvec4 red = vec4(1, 0, 0, 1);\n\nvoid main() {\n  gl_FragColor = green;\n}\n"}</pre>
+    <pre id="chapter-data" hidden>{"prefix":"vec3 draw_line(float d);\nfloat draw_solid(float d);\nvec3 draw_distance(float d, vec2 p);\n","suffix":"vec3 draw_line(float d) {\n  const float aa = 3.0;\n  const float thickness = 0.0025;\n  return vec3(smoothstep(0.0, aa / iResolution.y, max(0.0, abs(d) - thickness)));\n}\n\nfloat draw_solid(float d) {\n  return smoothstep(0.0, 3.0 / iResolution.y, max(0.0, d));\n}\n\nvec3 draw_distance(float d, vec2 p) {\n  float t = clamp(d * 0.85, 0.0, 1.0);\n  vec3 grad = mix(vec3(1, 0.8, 0.5), vec3(0.3, 0.8, 1), t);\n\n  float d0 = abs(1.0 - draw_line(mod(d + 0.1, 0.2) - 0.1).x);\n  float d1 = abs(1.0 - draw_line(mod(d + 0.025, 0.05) - 0.025).x);\n  float d2 = abs(1.0 - draw_line(d).x);\n  vec3 rim = vec3(max(d2 * 0.85, max(d0 * 0.25, d1 * 0.06125)));\n\n  grad -= rim;\n  grad -= mix(vec3(0.05, 0.35, 0.35), vec3(0.0), draw_solid(d));\n\n  return grad;\n}\n","question":"uniform vec2 iResolution;\nuniform float iGlobalTime;\n\n//\n// Get the distance field of two circles together in\n// a single function.\n//\nfloat distanceField(vec2 point, vec2 origin1, vec2 origin2, float radius) {\n  return 0.0;\n}\n\nvoid main() {\n  vec2 uv = 2.0 * gl_FragCoord.xy / iResolution.xy - 1.0;\n  vec2 origin = vec2(sin(iGlobalTime * 0.3) * 0.3);\n  float radius = (sin(iGlobalTime * 0.25) * 0.5 + 0.5) * 0.3 + 0.05;\n  float dist = distanceField(uv, origin, -origin, radius);\n\n  gl_FragColor = vec4(draw_distance(dist, uv), 1);\n}\n","solution":"uniform vec2 iResolution;\nuniform float iGlobalTime;\n\nfloat distanceField(vec2 point, vec2 origin1, vec2 origin2, float radius) {\n  float d1 = length(point - origin1) - radius;\n  float d2 = length(point - origin2) - radius;\n  return min(d1, d2);\n}\n\nvoid main() {\n  vec2 uv = 2.0 * gl_FragCoord.xy / iResolution.xy - 1.0;\n  vec2 origin = vec2(sin(iGlobalTime * 0.3) * 0.3);\n  float radius = (sin(iGlobalTime * 0.25) * 0.5 + 0.5) * 0.3 + 0.05;\n  float dist = distanceField(uv, origin, -origin, radius);\n\n  gl_FragColor = vec4(draw_distance(dist, uv), 1);\n}\n"}</pre>
     <script type="text/javascript" src="../bundle.js"></script>
   </body>
 </html>
