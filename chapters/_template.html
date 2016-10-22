@@ -2,20 +2,36 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>{{title}}</title>
+    <title>{{title}} | Fragment Foundry</title>
     <link rel="stylesheet" href="../index.css">
   </head>
   <body class="canvas-hidden" data-chapter="{{name}}">
+    <header>
+      <h1>
+        <a class="nav-toggle" href="#">
+          <div class="notch top"></div>
+          <div class="notch mid"></div>
+          <div class="notch bot"></div>
+        </a>
+        {{title}}
+      </h1>
+    </header>
     <nav>
-      <h1>{{title}}</h1>
+      <ul>
+        {{chapterList}}
+      </ul>
     </nav>
-    <figure id="display" class="canvas">
-      <canvas width="400" height="400"></canvas>
-      <figcaption></figcaption>
-    </figure>
-    <main>
-      {{html}}
-    </main>
+    <div class="mainui">
+      <div class="canvas">
+        <div id="canvas-us"><div class="label">Your Answer</div></div>
+        <div id="canvas-them"><div class="label">Correct Answer</div></div>
+      </div>
+      <div class="editor">
+        <div class="checker"><span>Waiting...</span></div>
+      </div>
+      <main class="text">{{html}}</main>
+    </div>
+    <pre id="chapter-data" hidden>{{chapterData}}</pre>
     <script type="text/javascript" src="../bundle.js"></script>
   </body>
 </html>

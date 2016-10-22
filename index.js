@@ -1,15 +1,8 @@
-const createEditor = require('./editor')
-const unescape = require('unescape')
+const navToggle = document.querySelector('.nav-toggle')
 
-const shaders = document.querySelectorAll('pre code.lang-glsl')
+require('./editor')()
 
-for (var i = 0; i < shaders.length; i++) {
-  var element = shaders[i]
-  var content = element.querySelector('[data-shader-content]')
-  var info = element.querySelector('[data-shader-info]')
-  content = content && unescape(content.innerHTML || '')
-  info = info && JSON.parse(unescape(info.innerHTML || '{}'))
-  if (!info || !content) continue
-
-  createEditor(element.parentNode, content, info)
-}
+navToggle.addEventListener('click', function (e) {
+  document.body.classList.toggle('nav-enabled')
+  return e.preventDefault() && false
+}, false)

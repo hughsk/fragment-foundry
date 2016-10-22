@@ -15,6 +15,7 @@
     "a-big-triangle": "^1.0.2",
     "brfs": "^1.4.3",
     "browserify": "^13.1.0",
+    "canvas-fit": "^1.5.0",
     "cheerio": "^0.20.0",
     "codemirror": "^5.16.0",
     "course": "0.0.1",
