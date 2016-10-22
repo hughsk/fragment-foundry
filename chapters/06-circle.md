@@ -1,17 +1,11 @@
 # Vectors and Builtins
 
-``` glsl
-#pragma display
-uniform vec2 screenSize;
-uniform float radius;
+OK, we've drawn a square — next, a circle.
 
-void main() {
-  bool inCircle = false;
+You can check if a point is in a circle by seeing if its `distance` from the circle's center is smaller than the circle's `radius`. In GLSL we measure distance using the `length()` function:
 
-  if (inCircle) {
-    gl_FragColor = vec4(0, 0, 0, 1);
-  } else {
-    gl_FragColor = vec4(1, 1, 1, 1);
-  }
-}
-```
+`float d = length(p2 - p1)`
+
+Much more concise than it would be in JavaScript!
+
+All that's left to do is compare that distance to the radius and you should be able to draw that circle out to the screen. Good luck :)

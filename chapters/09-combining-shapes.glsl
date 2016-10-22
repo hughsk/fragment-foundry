@@ -11,6 +11,9 @@ uniform float iGlobalTime;
 // a single function.
 //
 float distanceField(vec2 point, vec2 origin1, vec2 origin2, float radius) {
+  float d1 = length(point - origin1) - radius;
+  float d2 = length(point - origin2) - radius;
+
   return 0.0;
 }
 

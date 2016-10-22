@@ -1,40 +1,28 @@
 # Swizzling
 
-``` glsl
-#pragma display
-vec3 red = vec3(1, 0, 0);
-vec3 green = vec3(0, 1, 0);
-vec3 blue = vec3(0, 0, 1);
-vec3 cyan = vec3(0, 1, 1);
-vec3 magenta = vec3(1, 0, 1);
-vec3 yellow = vec3(1, 1, 0);
-vec3 white = vec3(1, 1, 1);
+Swizzling — beyond being a great name — is a nice feature in GLSL for accessing the properties of a vector.
 
-float aastep (float threshold, float value) {
-  float afwidth = length(vec2(dFdx(value), dFdy(value))) * 0.70710678118654757;
-  return smoothstep(threshold-afwidth, threshold+afwidth, value);
-}
+You can get a single `float` from a vector using `.r`, `.g`, `.b` or `.a`. For example:
 
-#define PI 3.14159265359
-vec2 rt (float r, float a) {
-  a *= PI * 2.0;
-  return r * vec2(sin(a), cos(a));
-}
+* `vec4(1, 2, 3, 4).r == 1.0`
+* `vec4(1, 2, 3, 4).g == 2.0`
+* `vec4(1, 2, 3, 4).b == 3.0`
+* `vec4(1, 2, 3, 4).a == 4.0`
 
-void main() {
-  vec3 color = vec3(0);
-  vec2 p = gl_FragCoord.xy / 400.0 * 2.0 - 1.0;
+*But* you can also create new vectors from combinations of their components like so:
 
-  color += aastep(0.0, 0.1 - length(p - rt(0.5, 1.0 / 3.0))) * red;
-  color += aastep(0.0, 0.1 - length(p - rt(0.5, 2.0 / 3.0))) * green;
-  color += aastep(0.0, 0.1 - length(p - rt(0.5, 3.0 / 3.0))) * blue;
+* `vec4(1, 2, 3, 4).rb == vec3(1, 3)`
+* `vec4(1, 2, 3, 4).rgg == vec3(1, 2, 2)`
+* `vec4(1, 2, 3, 4).ggab == vec3(2, 2, 4, 3)`
 
-  color += aastep(0.0, 0.125 - length(p - rt(0.5, 1.5 / 3.0))) * yellow;
-  color += aastep(0.0, 0.125 - length(p - rt(0.5, 2.5 / 3.0))) * cyan;
-  color += aastep(0.0, 0.125 - length(p - rt(0.5, 3.5 / 3.0))) * magenta;
+In addition to `.rgba`, you can also use `.xyzw`. These are equivalent, but if you're using the vector for a position instead of a color it's easy to reason about when using the latter.
 
-  color += aastep(0.0, 0.25 - length(p)) * white;
+* `vec4(1, 2, 3, 4).xz == vec3(1, 3)`
+* `vec4(1, 2, 3, 4).xyy == vec3(1, 2, 2)`
+* `vec4(1, 2, 3, 4).yywz == vec3(2, 2, 4, 3)`
 
-  gl_FragColor = vec4(color, 1);
-}
-```
+In this exercise, you can use the `swizzled` variable to create new colors:
+
+* `vec3 yellow = swizzled.xxy;`
+
+*P.S. don't forget to use semicolons at the end of each line: they're required in GLSL :')*

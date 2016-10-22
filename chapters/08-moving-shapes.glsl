@@ -5,7 +5,7 @@ uniform float iGlobalTime;
 //
 // Time to move the distance field away from the center.
 //
-// Place the circle such that its center it's at `origin`
+// Place the circle such that its center is at `origin`
 // every frame.
 //
 float distanceField(vec2 point, vec2 origin, float radius) {

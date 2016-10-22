@@ -18,7 +18,7 @@ float distanceField(vec2 point, vec2 origin1, vec2 origin2, float radius) {
 
 void main() {
   vec2 uv = 2.0 * gl_FragCoord.xy / iResolution.xy - 1.0;
-  vec2 origin = vec2(sin(iGlobalTime * 0.3) * 0.3);
+  vec2 origin = vec2(sin(iGlobalTime * 0.11) * 0.3);
   float radius = (sin(iGlobalTime * 0.25) * 0.5 + 0.5) * 0.3 + 0.05;
   float dist = distanceField(uv, origin, -origin, radius);
 
@@ -41,7 +41,7 @@ float distanceField(vec2 point, vec2 origin1, vec2 origin2, float radius) {
 
 void main() {
   vec2 uv = 2.0 * gl_FragCoord.xy / iResolution.xy - 1.0;
-  vec2 origin = vec2(sin(iGlobalTime * 0.3) * 0.3);
+  vec2 origin = vec2(sin(iGlobalTime * 0.11) * 0.3);
   float radius = (sin(iGlobalTime * 0.25) * 0.5 + 0.5) * 0.3 + 0.05;
   float dist = distanceField(uv, origin, -origin, radius);
 

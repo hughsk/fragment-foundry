@@ -263,3 +263,19 @@ figure.canvas figcaption {
 .mainui .editor-container {
   position: relative;
 }
+
+main iframe {
+  max-width: 100%;
+  margin: 1rem 0;
+}
+
+main ul {
+  margin: 1rem;
+  margin-left: 2rem;
+}
+
+main a {
+  color: #0080FF;
+  border-bottom: 1px solid #0080FF;
+  text-decoration: none;
+}
