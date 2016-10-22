@@ -103,7 +103,7 @@ function createEditor () {
     var error = missed / total
     if (error > 0.01) {
       failedMatch = true
-      matchLabel.innerHTML = 'Incorrect! Keep Trying :)'
+      matchLabel.innerHTML = ''
       return
     }
     var completion = 100 * matchOffset / height
