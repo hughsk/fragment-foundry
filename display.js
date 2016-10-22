@@ -16,12 +16,14 @@ class Display {
       this.canvas.getContext('experimental-webgl')
     )
 
+    console.log(this.gl.getExtension('OES_standard_derivatives'))
     this.currDisplay = null
     this.displays = []
     this.recalcTops = debounce(this.recalcTops.bind(this), false)
     this._visible = false
 
     window.addEventListener('scroll', debounce(() => this.onScroll()), false)
+    setTimeout(() => this.onScroll())
 
     var self = this
 
