@@ -1,3 +1,4 @@
+#pragma banTokens: vec2 x y
 #pragma question
 //
 // Get the midpoint of `p1` and `p2` *without* using

@@ -1,4 +1,6 @@
+const errorParser = require('gl-shader-errors')
 const triangle = require('a-big-triangle')
+const tokenize = require('glsl-tokenizer')
 const CodeMirror = require('codemirror')
 const insert = require('defaultcss')
 const unescape = require('unescape')
@@ -75,6 +77,10 @@ function createEditor () {
   var matchOffset = 0
   var matchStepSize = 16
   var incr = 0
+  var prefixLineCount = (data.prefix || '').split('\n').length + 2
+
+  if (checkBanned(data.question)) failedMatch = true
+
   function matchPoll () {
     var width = canvasSolution.width
     var height = canvasSolution.height
@@ -130,24 +136,68 @@ function createEditor () {
     value: data.question,
     theme: 'xq-light',
     viewportMargin: Infinity,
-    lineNumbers: true
+    lineNumbers: true,
+    gutters: [
+      'shaderError',
+      'CodeMirror-linenumbers'
+    ]
   })
 
   var noop = function(){}
   editor.on('change', function () {
+    var frag = getFrag(editor.getValue())
     var warn = console.warn
+
+    editor.clearGutter('shaderError')
+
     try {
       console.warn = noop
-      shaderQuestion.update(vert, getFrag(editor.getValue()))
+      shaderQuestion.update(vert, frag)
       console.warn = warn
-    } catch (e) { return }
-    failedMatch = false
+    } catch (e) {
+      var errors = errorParser(e.rawError)
+      for (var i = 0; i < errors.length; i++) {
+        var err = errors[i]
+        var line = err.line - prefixLineCount
+        var el = document.createElement('div')
+        el.style.width = '8px'
+        el.style.height = '8px'
+        el.style.borderRadius = '8px'
+        el.style.background = '#f00'
+        el.style.marginTop = '6px'
+        el.title = errors[i].message
+        editor.setGutterMarker(line - 1, 'shaderError', el)
+      }
+      return
+    }
+
+    failedMatch = checkBanned(editor.getValue())
     passedMatch = false
     matchOffset = 0
   })
 
   function getFrag (src) {
     return '#extension GL_OES_standard_derivatives : enable\nprecision highp float;\n' + data.prefix + src + data.suffix
+  }
+
+  function checkBanned (frag) {
+    if (!data.bannedTokens) return
+
+    var tokens = tokenize(frag)
+    for (var i = 0; i < tokens.length; i++) {
+      if (
+        tokens[i].type === 'keyword' &&
+        tokens[i + 1] &&
+        tokens[i + 1].type === 'whitespace'
+      ) continue
+
+      if (data.bannedTokens.indexOf(tokens[i].data) !== -1) {
+        failedMatch = true
+        passedMatch = false
+        matchOffset = 0
+        return true
+      }
+    }
   }
 
   resize()
