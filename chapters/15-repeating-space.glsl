@@ -6,26 +6,24 @@ float getDistanceFromPoint(vec3 point) {
   return 0.0;
 }
 #pragma solution
-#define PI 3.14159265359
-float modAngle(inout vec2 p, float a) {
-  float a1 = atan(p.y, p.x);
-  float a2 = mod(a1 + a * 0.5, a) - a * 0.5;
-
-  p = vec2(cos(a2), sin(a2)) * length(p);
-
-  return mod(floor(a1 / a + 0.5), 2.0 * PI / a);
-}
-
-float modRot(inout vec2 p, float i) {
-  return modAngle(p, 2.0 * PI / i);
-}
 float getDistanceFromPoint(vec3 point) {
   vec3 offset = vec3(0.75, 0, 0) * abs(sin(iGlobalTime * 0.1));
   float radius = 0.1;
 
-  modRot(point.xz, 7.0);
+  float angle = atan(point.z, point.x);
+  float dist = length(point.xz);
+  float count = 5.0;
+  float pi = 3.14159265;
+  float tau = pi * 2.0;
+  float period = tau / count;
 
-  return length(point - offset) - radius;
+  angle = mod(angle + period * 0.5, period) - period * 0.5;
+  point.xz = vec2(
+    dist * cos(angle),
+    dist * sin(angle)
+  );
+
+  return length(point - offset) - 0.1;
 }
 #pragma prefix
 uniform vec2 iResolution;
@@ -72,7 +70,7 @@ float intersectPlane(vec3 ro, vec3 rd, vec3 nor, float dist) {
 void main() {
   float time = iGlobalTime * 0.1;
   vec2 uv = 2.0 * gl_FragCoord.xy / iResolution - 1.0;
-  vec3 ro = vec3(sin(time), 1.0, cos(time));
+  vec3 ro = vec3(sin(0.0), 1.0, cos(0.0));
   vec3 ta = vec3(0);
   vec3 rd = getRay(ro, ta, uv, 2.0);
 
