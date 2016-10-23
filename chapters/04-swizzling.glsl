@@ -1,3 +1,4 @@
+#pragma banTokens: vec3
 #pragma prefix
 uniform vec2 iResolution;
 #pragma question
@@ -11,13 +12,13 @@ uniform vec2 iResolution;
 
 vec2 swizzled = vec2(1, 0);
 
-vec3 red = vec3(1, 0, 0);
-vec3 green = vec3(0, 1, 0);
-vec3 blue = vec3(0, 0, 1);
-vec3 cyan = vec3(0, 1, 1);
-vec3 magenta = vec3(1, 0, 1);
-vec3 yellow = vec3(1, 1, 0);
-vec3 white = vec3(1, 1, 1);
+vec3 red = swizzled.yyy;
+vec3 green = swizzled.yyy;
+vec3 blue = swizzled.yyy;
+vec3 cyan = swizzled.yyy;
+vec3 magenta = swizzled.yyy;
+vec3 yellow = swizzled.yyy;
+vec3 white = swizzled.yyy;
 #pragma solution
 vec2 swizzled = vec2(1, 0);
 

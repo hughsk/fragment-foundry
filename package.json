@@ -29,6 +29,7 @@
     "escape-html": "^1.0.3",
     "frame-debounce": "^1.0.1",
     "gl-shader": "^4.2.0",
+    "gl-shader-errors": "^1.0.3",
     "glsl-token-string": "^1.0.1",
     "glsl-tokenizer": "^2.1.2",
     "highlights": "^1.4.1",
