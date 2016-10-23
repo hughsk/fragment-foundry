@@ -10,25 +10,25 @@ uniform vec2 iResolution;
 // using `vec3()` constructors anywhere.
 //
 
-vec2 swizzled = vec2(1, 0);
+vec2 sw = vec2(1, 0);
 
-vec3 red = swizzled.yyy;
-vec3 green = swizzled.yyy;
-vec3 blue = swizzled.yyy;
-vec3 cyan = swizzled.yyy;
-vec3 magenta = swizzled.yyy;
-vec3 yellow = swizzled.yyy;
-vec3 white = swizzled.yyy;
+vec3 red = vec3(1, 0, 0);
+vec3 green = vec3(0, 1, 0);
+vec3 blue = vec3(0, 0, 1);
+vec3 cyan = vec3(0, 1, 1);
+vec3 magenta = vec3(1, 0, 1);
+vec3 yellow = vec3(1, 1, 0);
+vec3 white = vec3(1, 1, 1);
 #pragma solution
-vec2 swizzled = vec2(1, 0);
+vec2 sw = vec2(1, 0);
 
-vec3 red = swizzled.xyy;
-vec3 green = swizzled.yxy;
-vec3 blue = swizzled.yyx;
-vec3 cyan = swizzled.yxx;
-vec3 magenta = swizzled.xyx;
-vec3 yellow = swizzled.xxy;
-vec3 white = swizzled.xxx;
+vec3 red = sw.xyy;
+vec3 green = sw.yxy;
+vec3 blue = sw.yyx;
+vec3 cyan = sw.yxx;
+vec3 magenta = sw.xyx;
+vec3 yellow = sw.xxy;
+vec3 white = sw.xxx;
 #pragma suffix
 float aastep(float threshold, float value) {
   #ifdef GL_OES_standard_derivatives
