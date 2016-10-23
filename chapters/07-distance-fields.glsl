@@ -3,7 +3,7 @@ uniform vec2 iResolution;
 uniform float iGlobalTime;
 
 //
-// Let's make a distance field!
+// Let's make a distance function!
 //
 // We'll start with a circle. Its center should be at
 // `point` == (0, 0), and its `radius` should match the value
@@ -21,7 +21,7 @@ void main() {
   // draw_distance is a little utility we're using from
   // https://www.shadertoy.com/view/XsyGRW
   //
-  // It'll draw out your distance field for you, showing
+  // It'll draw out your distance function for you, showing
   // negative distances in a dark orange and positive distances
   // in yellow -> blue.
   gl_FragColor = vec4(draw_distance(dist, uv), 1);

@@ -1,19 +1,31 @@
 #pragma question
-//
-// In this example, the sphere's origin is (0, 0, 0).
-//
-// Change it so that the sphere resets directly on top of
-// (0, 0, 0) based on the radius.
-//
 float getDistanceFromPoint(vec3 point) {
-  float radius = (sin(iGlobalTime * 0.1) * 0.5 + 0.5) * 0.25;
+  vec3 offset = vec3(0.75, 0, 0) * abs(sin(iGlobalTime * 0.1));
+  float radius = 0.1;
 
-  return length(point) - radius;
+  return 0.0;
 }
 #pragma solution
+#define PI 3.14159265359
+float modAngle(inout vec2 p, float a) {
+  float a1 = atan(p.y, p.x);
+  float a2 = mod(a1 + a * 0.5, a) - a * 0.5;
+
+  p = vec2(cos(a2), sin(a2)) * length(p);
+
+  return mod(floor(a1 / a + 0.5), 2.0 * PI / a);
+}
+
+float modRot(inout vec2 p, float i) {
+  return modAngle(p, 2.0 * PI / i);
+}
 float getDistanceFromPoint(vec3 point) {
-  float radius = (sin(iGlobalTime * 0.1) * 0.5 + 0.5) * 0.25;
-  return length(point - vec3(0, radius, 0)) - radius;
+  vec3 offset = vec3(0.75, 0, 0) * abs(sin(iGlobalTime * 0.1));
+  float radius = 0.1;
+
+  modRot(point.xz, 7.0);
+
+  return length(point - offset) - radius;
 }
 #pragma prefix
 uniform vec2 iResolution;

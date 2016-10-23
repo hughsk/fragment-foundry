@@ -1,19 +1,18 @@
 #pragma question
 //
-// In this example, the sphere's origin is (0, 0, 0).
-//
-// Change it so that the sphere resets directly on top of
-// (0, 0, 0) based on the radius.
+// Try and recreate the solution by eyeballing it :)
 //
 float getDistanceFromPoint(vec3 point) {
-  float radius = (sin(iGlobalTime * 0.1) * 0.5 + 0.5) * 0.25;
-
-  return length(point) - radius;
+  float period = 0.4;
+  float radius = 0.1;
+  return 0.0;
 }
 #pragma solution
 float getDistanceFromPoint(vec3 point) {
-  float radius = (sin(iGlobalTime * 0.1) * 0.5 + 0.5) * 0.25;
-  return length(point - vec3(0, radius, 0)) - radius;
+  float period = 0.4;
+  float radius = 0.1;
+  point.xz = mod(point.xz + period * 0.5, period) - period * 0.5;
+  return length(point) - radius;
 }
 #pragma prefix
 uniform vec2 iResolution;
