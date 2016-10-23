@@ -21,103 +21,103 @@
         
   <li>
     <a href="01-hello-world.html">
-      <span class="done-mark"></span> 00. Hello World!
+      <span data-name=01-hello-world class="done-mark"></span> 00. Hello World!
     </a>
   </li>
 
   <li>
     <a href="03-rgb.html">
-      <span class="done-mark"></span> 01. RGBA Color
+      <span data-name=03-rgb class="done-mark"></span> 01. RGBA Color
     </a>
   </li>
 
   <li>
     <a href="04-swizzling.html">
-      <span class="done-mark"></span> 02. Swizzling
+      <span data-name=04-swizzling class="done-mark"></span> 02. Swizzling
     </a>
   </li>
 
   <li>
     <a href="04b-maths-sorry.html">
-      <span class="done-mark"></span> 03. Maths; Sorry!
+      <span data-name=04b-maths-sorry class="done-mark"></span> 03. Maths; Sorry!
     </a>
   </li>
 
   <li>
     <a href="05-square.html">
-      <span class="done-mark"></span> 04. Let's Draw a Square
+      <span data-name=05-square class="done-mark"></span> 04. Let's Draw a Square
     </a>
   </li>
 
   <li>
     <a href="06-circle.html">
-      <span class="done-mark"></span> 05. Vectors and Builtins
+      <span data-name=06-circle class="done-mark"></span> 05. Vectors and Builtins
     </a>
   </li>
 
   <li>
     <a href="07-distance-fields.html">
-      <span class="done-mark"></span> 06. Distance Functions
+      <span data-name=07-distance-fields class="done-mark"></span> 06. Distance Functions
     </a>
   </li>
 
   <li>
     <a href="08-moving-shapes.html">
-      <span class="done-mark"></span> 07. Moving Shapes
+      <span data-name=08-moving-shapes class="done-mark"></span> 07. Moving Shapes
     </a>
   </li>
 
   <li>
     <a href="09-combining-shapes.html">
-      <span class="done-mark"></span> 08. Combining Shapes
+      <span data-name=09-combining-shapes class="done-mark"></span> 08. Combining Shapes
     </a>
   </li>
 
   <li>
     <a href="09b-blending-shapes.html">
-      <span class="done-mark"></span> 09. Blending Shapes
+      <span data-name=09b-blending-shapes class="done-mark"></span> 09. Blending Shapes
     </a>
   </li>
 
   <li>
     <a href="10-repeating-space.html">
-      <span class="done-mark"></span> 10. Repeating Space
+      <span data-name=10-repeating-space class="done-mark"></span> 10. Repeating Space
     </a>
   </li>
 
   <li>
     <a href="10b-primitives.html">
-      <span class="done-mark"></span> 11. Primitives
+      <span data-name=10b-primitives class="done-mark"></span> 11. Primitives
     </a>
   </li>
 
   <li>
     <a href="11-add-a-dimension.html">
-      <span class="done-mark"></span> 12. Let's Add a Dimension
+      <span data-name=11-add-a-dimension class="done-mark"></span> 12. Let's Add a Dimension
     </a>
   </li>
 
   <li>
     <a href="12-combining-again.html">
-      <span class="done-mark"></span> 13. Combining Shapes II
+      <span data-name=12-combining-again class="done-mark"></span> 13. Combining Shapes II
     </a>
   </li>
 
   <li>
     <a href="13-blending-again.html">
-      <span class="done-mark"></span> 14. Blending Shapes II
+      <span data-name=13-blending-again class="done-mark"></span> 14. Blending Shapes II
     </a>
   </li>
 
   <li>
     <a href="14-repeating-space.html">
-      <span class="done-mark"></span> 15. Repeating Space II
+      <span data-name=14-repeating-space class="done-mark"></span> 15. Repeating Space II
     </a>
   </li>
 
   <li>
     <a href="15-repeating-space.html">
-      <span class="done-mark"></span> 16. Repeating Space III
+      <span data-name=15-repeating-space class="done-mark"></span> 16. Repeating Space III
     </a>
   </li>
       </ul>
@@ -147,7 +147,7 @@
 <p>GLSL vectors are a special type of array where each of the 2&#x2013;4 values is a number. Vectors in GLSL are first-class citizens, and using them correctly is key to making the most of GLSL&apos;s potential. More on that later...</p>
 </main>
     </div>
-    <pre id="chapter-data" hidden>{"bannedTokens":[],"prefix":"uniform vec2 iResolution;\n","suffix":"float aastep(float threshold, float value) {\n  #ifdef GL_OES_standard_derivatives\n    float afwidth = length(vec2(dFdx(value), dFdy(value))) * 0.70710678118654757;\n    return smoothstep(threshold-afwidth, threshold+afwidth, value);\n  #else\n    return step(threshold, value);\n  #endif\n}\n\n#define PI 3.14159265359\nvec2 rt (float r, float a) {\n  a *= PI * 2.0;\n  return r * vec2(sin(a), cos(a));\n}\n\nvec2 squareFrame(vec2 screenSize, vec2 coord) {\n  vec2 position = 2.0 * (coord.xy / screenSize.xy) - 1.0;\n  if (screenSize.x > screenSize.y) {\n    position.x *= screenSize.x / screenSize.y;\n  } else {\n    position.y *= screenSize.y / screenSize.x;\n  }\n  return position;\n}\n\nvoid main() {\n  vec3 color = vec3(0.025, 0.05, 0.1);\n  vec2 p = squareFrame(iResolution, gl_FragCoord.xy);\n\n  color = mix(color, red, aastep(0.0, 0.1 - length(p - rt(0.5, 1.0 / 3.0))));\n  color = mix(color, green, aastep(0.0, 0.1 - length(p - rt(0.5, 2.0 / 3.0))));\n  color = mix(color, blue, aastep(0.0, 0.1 - length(p - rt(0.5, 3.0 / 3.0))));\n\n  color = mix(color, yellow, aastep(0.0, 0.125 - length(p - rt(0.5, 1.5 / 3.0))));\n  color = mix(color, cyan, aastep(0.0, 0.125 - length(p - rt(0.5, 2.5 / 3.0))));\n  color = mix(color, magenta, aastep(0.0, 0.125 - length(p - rt(0.5, 3.5 / 3.0))));\n\n  color = mix(color, white, aastep(0.0, 0.25 - length(p)));\n\n  gl_FragColor = vec4(color, 1);\n}\n","question":"//\n// Fix the color variables listed here so that their\n// values match their name.\n//\n// You should only need a combination of 0s and 1s :)\n//\n\nvec3 red = vec3(1, 1, 1);\nvec3 green = vec3(1, 1, 1);\nvec3 blue = vec3(1, 1, 1);\nvec3 cyan = vec3(1, 1, 1);\nvec3 magenta = vec3(1, 1, 1);\nvec3 yellow = vec3(1, 1, 1);\nvec3 white = vec3(1, 1, 1);\n","solution":"vec3 red = vec3(1, 0, 0);\nvec3 green = vec3(0, 1, 0);\nvec3 blue = vec3(0, 0, 1);\nvec3 cyan = vec3(0, 1, 1);\nvec3 magenta = vec3(1, 0, 1);\nvec3 yellow = vec3(1, 1, 0);\nvec3 white = vec3(1, 1, 1);\n"}</pre>
+    <pre id="chapter-data" hidden>{"bannedTokens":[],"prefix":"uniform vec2 iResolution;\n","suffix":"float aastep(float threshold, float value) {\n  #ifdef GL_OES_standard_derivatives\n    float afwidth = length(vec2(dFdx(value), dFdy(value))) * 0.70710678118654757;\n    return smoothstep(threshold-afwidth, threshold+afwidth, value);\n  #else\n    return step(threshold, value);\n  #endif\n}\n\n#define PI 3.14159265359\nvec2 rt (float r, float a) {\n  a *= PI * 2.0;\n  return r * vec2(sin(a), cos(a));\n}\n\nvec2 squareFrame(vec2 screenSize, vec2 coord) {\n  vec2 position = 2.0 * (coord.xy / screenSize.xy) - 1.0;\n  if (screenSize.x > screenSize.y) {\n    position.x *= screenSize.x / screenSize.y;\n  } else {\n    position.y *= screenSize.y / screenSize.x;\n  }\n  return position;\n}\n\nvoid main() {\n  vec3 color = vec3(0.025, 0.05, 0.1);\n  vec2 p = squareFrame(iResolution, gl_FragCoord.xy);\n\n  color = mix(color, red, aastep(0.0, 0.1 - length(p - rt(0.5, 1.0 / 3.0))));\n  color = mix(color, green, aastep(0.0, 0.1 - length(p - rt(0.5, 2.0 / 3.0))));\n  color = mix(color, blue, aastep(0.0, 0.1 - length(p - rt(0.5, 3.0 / 3.0))));\n\n  color = mix(color, yellow, aastep(0.0, 0.125 - length(p - rt(0.5, 1.5 / 3.0))));\n  color = mix(color, cyan, aastep(0.0, 0.125 - length(p - rt(0.5, 2.5 / 3.0))));\n  color = mix(color, magenta, aastep(0.0, 0.125 - length(p - rt(0.5, 3.5 / 3.0))));\n\n  color = mix(color, white, aastep(0.0, 0.25 - length(p)));\n\n  gl_FragColor = vec4(color, 1);\n}\n","question":"//\n// Fix the color variables listed here so that their\n// values match their name.\n//\n// You should only need a combination of 0s and 1s :)\n//\n\nvec3 red = vec3(1, 1, 1);\nvec3 green = vec3(1, 1, 1);\nvec3 blue = vec3(1, 1, 1);\nvec3 cyan = vec3(1, 1, 1);\nvec3 magenta = vec3(1, 1, 1);\nvec3 yellow = vec3(1, 1, 1);\nvec3 white = vec3(1, 1, 1);\n","solution":"vec3 red = vec3(1, 0, 0);\nvec3 green = vec3(0, 1, 0);\nvec3 blue = vec3(0, 0, 1);\nvec3 cyan = vec3(0, 1, 1);\nvec3 magenta = vec3(1, 0, 1);\nvec3 yellow = vec3(1, 1, 0);\nvec3 white = vec3(1, 1, 1);\n","name":"03-rgb"}</pre>
     <script type="text/javascript" src="../bundle.js"></script>
     <script type="text/javascript" defer="defer" async="async">
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
