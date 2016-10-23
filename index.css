@@ -93,15 +93,33 @@ nav ul li a {
   display: block;
   transition: color 0.1s, background-color 0.1s;
 }
-
+nav ul li a.faded {
+  color: #aaa;
+}
+nav ul li a.faded:hover,
 nav ul li a:hover {
   font-weight: 700;
   background: #000;
   color: #fff;
 }
 
-nav ul li a .done-mark {
+nav ul li a .done-mark:before {
   color: #92EB34;
+  content: ' ';
+  display: inline-block;
+  width: 1rem;
+  text-align: center;
+  text-shadow: 0 +1px #000,
+               0 -1px #000,
+               +1px 0 #000,
+               -1px 0 #000;
+}
+nav ul li a:hover .done-mark:before {
+  font-weight: 500;
+  color: #fff;
+}
+nav ul li a .done-mark.is-done:before {
+  content: '✓';
 }
 
 main {
@@ -249,6 +267,7 @@ figure.canvas figcaption {
   bottom: 0;
   left: 0; right: 0;
   background: #fff;
+  transition: background 0.5s;
   border-top: 1px solid #000;
   height: 2rem;
   display: flex;

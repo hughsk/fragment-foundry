@@ -29,6 +29,7 @@ function createEditor () {
     }
   `
 
+  var lessonKey = 'lesson:' + data.name
   var cOpts = { preserveDrawingBuffer: true }
   var displayQuestion = document.querySelector('#canvas-us')
   var displaySolution = document.querySelector('#canvas-them')
@@ -90,6 +91,16 @@ function createEditor () {
     if (matchOffset + matchStepSize >= height) {
       passedMatch = true
       matchLabel.innerHTML = 'Got it! Nice work :D'
+      matchLabel.parentNode.style.background = '#69e61b'
+      var doneMark = document.querySelector('.done-mark[data-name="' + data.name + '"]')
+      if (doneMark) {
+        doneMark.classList.add('is-done')
+        doneMark.parentNode.classList.add('faded')
+      }
+      if (window.localStorage) {
+        window.localStorage.setItem(lessonKey, String(true))
+      }
+
       return
     }
     var threshold = 3 * 0.01 * 255

@@ -21,8 +21,8 @@ In addition to `.rgba`, you can also use `.xyzw`. These are equivalent, but if y
 * `vec4(1, 2, 3, 4).xyy == vec3(1, 2, 2)`
 * `vec4(1, 2, 3, 4).yywz == vec3(2, 2, 4, 3)`
 
-In this exercise, you can use the `swizzled` variable to create new colors:
+In this exercise, you can use the `sw` variable to create new colors:
 
-* `vec3 yellow = swizzled.xxy;`
+* `vec3 yellow = sw.xxy;`
 
 *P.S. don't forget to use semicolons at the end of each line: they're required in GLSL :')*
