@@ -150,7 +150,17 @@
 <p>Note that in our example we&apos;ve scaled it slightly differently: the top-left is <code>vec2(-1, -1)</code> and the bottom-right is <code>vec2(+1, +1)</code>.</p>
 </main>
     </div>
-    <pre id="chapter-data" hidden>{"prefix":"","suffix":"","question":"uniform vec2 iResolution;\n\n//\n// Let's draw a box in the center of the screen!\n//\n// It should start where uv == (-0.5, -0.5) and finish\n// where uv == (+0.5, +0.5). Change the `isBox` function\n// to return `true` when it's within those bounds.\n//\nbool inBox(vec2 uv) {\n  return false;\n}\n\nvoid main() {\n  vec2 uv = 2.0 * gl_FragCoord.xy / iResolution.xy - 1.0;\n  if (inBox(uv)) {\n    gl_FragColor = vec4(1, 0.6, 0.5, 1);\n  } else {\n    gl_FragColor = vec4(0.5, 0.8, 1, 1);\n  }\n}\n","solution":"uniform vec2 iResolution;\n\nbool inBox(vec2 uv) {\n  return uv.x < 0.5 && uv.x > -0.5 && uv.y < 0.5 && uv.y > -0.5;\n}\n\nvoid main() {\n  vec2 uv = 2.0 * gl_FragCoord.xy / iResolution.xy - 1.0;\n  if (inBox(uv)) {\n    gl_FragColor = vec4(1, 0.6, 0.5, 1);\n  } else {\n    gl_FragColor = vec4(0.5, 0.8, 1, 1);\n  }\n}\n"}</pre>
+    <pre id="chapter-data" hidden>{"bannedTokens":[],"prefix":"","suffix":"","question":"uniform vec2 iResolution;\n\n//\n// Let's draw a box in the center of the screen!\n//\n// It should start where uv == (-0.5, -0.5) and finish\n// where uv == (+0.5, +0.5). Change the `isBox` function\n// to return `true` when it's within those bounds.\n//\nbool inBox(vec2 uv) {\n  return false;\n}\n\nvoid main() {\n  vec2 uv = 2.0 * gl_FragCoord.xy / iResolution.xy - 1.0;\n  if (inBox(uv)) {\n    gl_FragColor = vec4(1, 0.6, 0.5, 1);\n  } else {\n    gl_FragColor = vec4(0.5, 0.8, 1, 1);\n  }\n}\n","solution":"uniform vec2 iResolution;\n\nbool inBox(vec2 uv) {\n  return uv.x < 0.5 && uv.x > -0.5 && uv.y < 0.5 && uv.y > -0.5;\n}\n\nvoid main() {\n  vec2 uv = 2.0 * gl_FragCoord.xy / iResolution.xy - 1.0;\n  if (inBox(uv)) {\n    gl_FragColor = vec4(1, 0.6, 0.5, 1);\n  } else {\n    gl_FragColor = vec4(0.5, 0.8, 1, 1);\n  }\n}\n"}</pre>
     <script type="text/javascript" src="../bundle.js"></script>
+    <script type="text/javascript" defer="defer" async="async">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-46847743-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script type="text/javascript" defer="defer" async="async" src="//cdn.webglstats.com/stat.js" ></script>
   </body>
 </html>

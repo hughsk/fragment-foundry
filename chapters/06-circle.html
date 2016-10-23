@@ -138,7 +138,17 @@
 <p>All that&apos;s left to do is compare that distance to the radius and you should be able to draw that circle out to the screen. Good luck :)</p>
 </main>
     </div>
-    <pre id="chapter-data" hidden>{"prefix":"","suffix":"","question":"uniform vec2 iResolution;\nuniform float iGlobalTime;\n\n//\n// Let's draw a circle in the center of the screen!\n//\n// Its center should be at uv == (0, 0), and its `radius`\n// should match the value passed into `inCircle`.\n//\nbool inCircle(vec2 uv, float radius) {\n  return false;\n}\n\n// If it's starting to look like there's a lot going on in\n// main(), don't worry! You don't need to change it, it's\n// just doing some heavy lifting for you. Leaving it in\n// here in case it's helpful for you :)\nvoid main() {\n  vec2 uv = 2.0 * gl_FragCoord.xy / iResolution.xy - 1.0;\n  float radius = (sin(iGlobalTime * 0.25) * 0.5 + 0.5) * 0.5 + 0.3;\n  if (inCircle(uv, radius)) {\n    gl_FragColor = vec4(1, 0.6, 0.5, 1);\n  } else {\n    gl_FragColor = vec4(0.5, 0.8, 1, 1);\n  }\n}\n","solution":"uniform vec2 iResolution;\nuniform float iGlobalTime;\n\nbool inCircle(vec2 uv, float radius) {\n  return length(uv) < radius;\n}\n\nvoid main() {\n  vec2 uv = 2.0 * gl_FragCoord.xy / iResolution.xy - 1.0;\n  float radius = (sin(iGlobalTime * 0.25) * 0.5 + 0.5) * 0.5 + 0.3;\n  if (inCircle(uv, radius)) {\n    gl_FragColor = vec4(1, 0.6, 0.5, 1);\n  } else {\n    gl_FragColor = vec4(0.5, 0.8, 1, 1);\n  }\n}\n"}</pre>
+    <pre id="chapter-data" hidden>{"bannedTokens":[],"prefix":"","suffix":"","question":"uniform vec2 iResolution;\nuniform float iGlobalTime;\n\n//\n// Let's draw a circle in the center of the screen!\n//\n// Its center should be at uv == (0, 0), and its `radius`\n// should match the value passed into `inCircle`.\n//\nbool inCircle(vec2 uv, float radius) {\n  return false;\n}\n\n// If it's starting to look like there's a lot going on in\n// main(), don't worry! You don't need to change it, it's\n// just doing some heavy lifting for you. Leaving it in\n// here in case it's helpful for you :)\nvoid main() {\n  vec2 uv = 2.0 * gl_FragCoord.xy / iResolution.xy - 1.0;\n  float radius = (sin(iGlobalTime * 0.25) * 0.5 + 0.5) * 0.5 + 0.3;\n  if (inCircle(uv, radius)) {\n    gl_FragColor = vec4(1, 0.6, 0.5, 1);\n  } else {\n    gl_FragColor = vec4(0.5, 0.8, 1, 1);\n  }\n}\n","solution":"uniform vec2 iResolution;\nuniform float iGlobalTime;\n\nbool inCircle(vec2 uv, float radius) {\n  return length(uv) < radius;\n}\n\nvoid main() {\n  vec2 uv = 2.0 * gl_FragCoord.xy / iResolution.xy - 1.0;\n  float radius = (sin(iGlobalTime * 0.25) * 0.5 + 0.5) * 0.5 + 0.3;\n  if (inCircle(uv, radius)) {\n    gl_FragColor = vec4(1, 0.6, 0.5, 1);\n  } else {\n    gl_FragColor = vec4(0.5, 0.8, 1, 1);\n  }\n}\n"}</pre>
     <script type="text/javascript" src="../bundle.js"></script>
+    <script type="text/javascript" defer="defer" async="async">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-46847743-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script type="text/javascript" defer="defer" async="async" src="//cdn.webglstats.com/stat.js" ></script>
   </body>
 </html>
