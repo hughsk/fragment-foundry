@@ -1,6 +1,6 @@
 # RGBA Color
 
-Fragment shaders use RGBA color for describing color: each pixel has a Red, Green, Blue and Alpha value which when combined can represent any visible colour.
+Fragment shaders use RGBA color for describing color: each pixel has a Red, Green, Blue and Alpha (opacity) value which when combined can represent any visible colour.
 
 In GLSL colours are represented as *vectors*:
 
