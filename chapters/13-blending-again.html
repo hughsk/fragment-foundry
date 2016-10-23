@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Blending Shapes II | Fragment Foundry</title>
+    <link rel="stylesheet" href="../index.css">
+  </head>
+  <body class="canvas-hidden" data-chapter="13-blending-again">
+    <header>
+      <h1>
+        <a class="nav-toggle" href="#">
+          <div class="notch top"></div>
+          <div class="notch mid"></div>
+          <div class="notch bot"></div>
+        </a>
+        Blending Shapes II
+      </h1>
+    </header>
+    <nav>
+      <ul>
+        
+  <li>
+    <a href="01-hello-world.html">
+      <span class="done-mark"></span> 00. Hello World!
+    </a>
+  </li>
+
+  <li>
+    <a href="03-rgb.html">
+      <span class="done-mark"></span> 01. RGBA Color
+    </a>
+  </li>
+
+  <li>
+    <a href="04-swizzling.html">
+      <span class="done-mark"></span> 02. Swizzling
+    </a>
+  </li>
+
+  <li>
+    <a href="04b-maths-sorry.html">
+      <span class="done-mark"></span> 03. Maths; Sorry!
+    </a>
+  </li>
+
+  <li>
+    <a href="05-square.html">
+      <span class="done-mark"></span> 04. Let's Draw a Square
+    </a>
+  </li>
+
+  <li>
+    <a href="06-circle.html">
+      <span class="done-mark"></span> 05. Vectors and Builtins
+    </a>
+  </li>
+
+  <li>
+    <a href="07-distance-fields.html">
+      <span class="done-mark"></span> 06. Distance Functions
+    </a>
+  </li>
+
+  <li>
+    <a href="08-moving-shapes.html">
+      <span class="done-mark"></span> 07. Moving Shapes
+    </a>
+  </li>
+
+  <li>
+    <a href="09-combining-shapes.html">
+      <span class="done-mark"></span> 08. Combining Shapes
+    </a>
+  </li>
+
+  <li>
+    <a href="09b-blending-shapes.html">
+      <span class="done-mark"></span> 09. Blending Shapes
+    </a>
+  </li>
+
+  <li>
+    <a href="10-repeating-space.html">
+      <span class="done-mark"></span> 10. Repeating Space
+    </a>
+  </li>
+
+  <li>
+    <a href="10b-primitives.html">
+      <span class="done-mark"></span> 11. Primitives
+    </a>
+  </li>
+
+  <li>
+    <a href="11-add-a-dimension.html">
+      <span class="done-mark"></span> 12. Let's Add a Dimension
+    </a>
+  </li>
+
+  <li>
+    <a href="12-combining-again.html">
+      <span class="done-mark"></span> 13. Combining Shapes II
+    </a>
+  </li>
+
+  <li>
+    <a href="13-blending-again.html">
+      <span class="done-mark"></span> 14. Blending Shapes II
+    </a>
+  </li>
+
+  <li>
+    <a href="14-repeating-space.html">
+      <span class="done-mark"></span> 15. Repeating Space II
+    </a>
+  </li>
+
+  <li>
+    <a href="15-repeating-space.html">
+      <span class="done-mark"></span> 16. Repeating Space III
+    </a>
+  </li>
+      </ul>
+    </nav>
+    <div class="mainui">
+      <div class="canvas">
+        <div id="canvas-us"><div class="label">Your Answer</div></div>
+        <div id="canvas-them"><div class="label">Correct Answer</div></div>
+      </div>
+      <div class="editor">
+        <div class="checker"><span>Waiting...</span></div>
+      </div>
+      <main class="text">
+<p>Smooth minimum also extends to 3 dimensions easily. Since it&apos;s only comparing distances you don&apos;t even need to change the function.</p>
+<p>As a result, we can smoothly blend multiple shapes together with minimal overhead. This is an effect that&apos;s quite difficult to achieve using a traditional, triangle-based rendering setup but comes quite naturally when working with distance functions.</p>
+<p>Here&apos;s those smooth min functions again for reference:</p>
+<h3 id="exponential">Exponential</h3>
+<pre><code>float smin( float a, float b, float k )
+{
+    float res = exp( -k*a ) + exp( -k*b );
+    return -log( res )/k;
+}
+</code></pre><h3 id="polynomial">Polynomial</h3>
+<pre><code>float smin( float a, float b, float k )
+{
+    float h = clamp( 0.5+0.5*(b-a)/k, 0.0, 1.0 );
+    return mix( b, a, h ) - k*h*(1.0-h);
+}
+</code></pre><h3 id="power">Power</h3>
+<pre><code>float smin( float a, float b, float k )
+{
+    a = pow( a, k ); b = pow( b, k );
+    return pow( (a*b)/(a+b), 1.0/k );
+}
+</code></pre></main>
+    </div>
+    <pre id="chapter-data" hidden>{"prefix":"uniform vec2 iResolution;\nuniform float iGlobalTime;\n\nfloat getDistanceFromPoint(vec3 point);\nvec3 draw_line(float d);\nfloat draw_solid(float d);\nvec3 draw_distance(float d, vec2 p);\n\nmat3 calcLookAtMatrix(vec3 origin, vec3 target, float roll) {\n  vec3 rr = vec3(sin(roll), cos(roll), 0.0);\n  vec3 ww = normalize(target - origin);\n  vec3 uu = normalize(cross(ww, rr));\n  vec3 vv = normalize(cross(uu, ww));\n\n  return mat3(uu, vv, ww);\n}\n\nvec3 calcNormal(vec3 pos, float eps) {\n  const vec3 v1 = vec3( 1.0,-1.0,-1.0);\n  const vec3 v2 = vec3(-1.0,-1.0, 1.0);\n  const vec3 v3 = vec3(-1.0, 1.0,-1.0);\n  const vec3 v4 = vec3( 1.0, 1.0, 1.0);\n\n  return normalize( v1 * getDistanceFromPoint( pos + v1*eps ) +\n                    v2 * getDistanceFromPoint( pos + v2*eps ) +\n                    v3 * getDistanceFromPoint( pos + v3*eps ) +\n                    v4 * getDistanceFromPoint( pos + v4*eps ) );\n}\n\nvec3 getRay(vec3 origin, vec3 target, vec2 screenPos, float lensLength) {\n  mat3 camMat = calcLookAtMatrix(origin, target, 0.0);\n  return normalize(camMat * vec3(screenPos, lensLength));\n}\n\nfloat intersectPlane(vec3 ro, vec3 rd, vec3 nor, float dist) {\n  float denom = dot(rd, nor);\n  float t = -(dot(ro, nor) + dist) / denom;\n\n  return t;\n}\n","suffix":"void main() {\n  float time = iGlobalTime * 0.1;\n  vec2 uv = 2.0 * gl_FragCoord.xy / iResolution - 1.0;\n  vec3 ro = vec3(sin(time), 1.0, cos(time));\n  vec3 ta = vec3(0);\n  vec3 rd = getRay(ro, ta, uv, 2.0);\n\n  float t = -1.0;\n  float mind = 0.01;\n  float maxd = 10.0;\n  float latest = 1.0;\n  for (int i = 0; i < 30; i++) {\n    if (latest < mind || t > maxd) break;\n    t += (latest = getDistanceFromPoint(ro + rd * t));\n  }\n\n  float tPlane = intersectPlane(ro, rd, vec3(0, 1, 0), 0.0);\n\n  if (tPlane > -0.5 && tPlane < t) {\n    vec3 pos = ro + rd * tPlane;\n    gl_FragColor = vec4(draw_distance(getDistanceFromPoint(pos) + 0.05, pos.xz), 1);\n  } else\n  if (t > maxd) {\n    gl_FragColor = vec4(0, 0, 0, 1);\n  } else {\n    vec3 pos = ro + rd * t;\n    vec3 normal = calcNormal(pos, 0.002);\n\n    gl_FragColor = vec4(normal * 0.5 + 0.5, 1);\n  }\n}\n\nvec3 draw_line(float d) {\n  const float aa = 3.0;\n  const float thickness = 0.0025;\n  return vec3(smoothstep(0.0, aa / iResolution.y, max(0.0, abs(d) - thickness)));\n}\n\nfloat draw_solid(float d) {\n  return smoothstep(0.0, 3.0 / iResolution.y, max(0.0, d));\n}\n\nvec3 draw_distance(float d, vec2 p) {\n  float t = clamp(d * 0.85, 0.0, 1.0);\n  vec3 grad = mix(vec3(1, 0.8, 0.5), vec3(0.3, 0.8, 1), t);\n\n  float d0 = abs(1.0 - draw_line(mod(d + 0.1, 0.2) - 0.1).x);\n  float d1 = abs(1.0 - draw_line(mod(d + 0.025, 0.05) - 0.025).x);\n  float d2 = abs(1.0 - draw_line(d).x);\n  vec3 rim = vec3(max(d2 * 0.85, max(d0 * 0.25, d1 * 0.06125)));\n\n  grad -= rim;\n  grad -= mix(vec3(0.05, 0.35, 0.35), vec3(0.0), draw_solid(d));\n\n  return grad;\n}\n","question":"//\n// Use a polynomial smooth minimum (k = 0.1) to combine `d1`\n// and `d2`.\n//\nfloat getDistanceFromPoint(vec3 point) {\n  vec3 offset = vec3(0.25 * sin(iGlobalTime * 0.15), 0, 0);\n  float d1 = length(point - offset) - 0.1;\n  float d2 = length(point + offset) - 0.3;\n\n  return min(d1, d2);\n}\n","solution":"float smin( float a, float b, float k )\n{\n    float h = clamp( 0.5+0.5*(b-a)/k, 0.0, 1.0 );\n    return mix( b, a, h ) - k*h*(1.0-h);\n}\nfloat getDistanceFromPoint(vec3 point) {\n  vec3 offset = vec3(0.25 * sin(iGlobalTime * 0.15), 0, 0);\n  float d1 = length(point - offset) - 0.1;\n  float d2 = length(point + offset) - 0.3;\n\n  return smin(d1, d2, 0.1);\n}\n"}</pre>
+    <script type="text/javascript" src="../bundle.js"></script>
+  </body>
+</html>

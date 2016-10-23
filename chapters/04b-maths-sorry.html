@@ -18,79 +18,106 @@
     </header>
     <nav>
       <ul>
-        <li>
+        
+  <li>
     <a href="01-hello-world.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Hello World!
+      <span class="done-mark"></span> 00. Hello World!
     </a>
   </li>
-<li>
-    <a href="02-syntax.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Basic Syntax
-    </a>
-  </li>
-<li>
+
+  <li>
     <a href="03-rgb.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> RGB Color
+      <span class="done-mark"></span> 01. RGBA Color
     </a>
   </li>
-<li>
+
+  <li>
     <a href="04-swizzling.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Swizzling
+      <span class="done-mark"></span> 02. Swizzling
     </a>
   </li>
-<li>
+
+  <li>
     <a href="04b-maths-sorry.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Maths; Sorry!
+      <span class="done-mark"></span> 03. Maths; Sorry!
     </a>
   </li>
-<li>
+
+  <li>
     <a href="05-square.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Let's Draw a Square
+      <span class="done-mark"></span> 04. Let's Draw a Square
     </a>
   </li>
-<li>
+
+  <li>
     <a href="06-circle.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Vectors and Builtins
+      <span class="done-mark"></span> 05. Vectors and Builtins
     </a>
   </li>
-<li>
+
+  <li>
     <a href="07-distance-fields.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Distance Fields
+      <span class="done-mark"></span> 06. Distance Functions
     </a>
   </li>
-<li>
+
+  <li>
     <a href="08-moving-shapes.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Moving Shapes
+      <span class="done-mark"></span> 07. Moving Shapes
     </a>
   </li>
-<li>
+
+  <li>
     <a href="09-combining-shapes.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Combining Shapes
+      <span class="done-mark"></span> 08. Combining Shapes
     </a>
   </li>
-<li>
+
+  <li>
     <a href="09b-blending-shapes.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Blending Shapes
+      <span class="done-mark"></span> 09. Blending Shapes
     </a>
   </li>
-<li>
+
+  <li>
     <a href="10-repeating-space.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Repeating Space
+      <span class="done-mark"></span> 10. Repeating Space
     </a>
   </li>
-<li>
+
+  <li>
     <a href="10b-primitives.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Primitives
+      <span class="done-mark"></span> 11. Primitives
     </a>
   </li>
-<li>
+
+  <li>
     <a href="11-add-a-dimension.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Let's Add a Dimension
+      <span class="done-mark"></span> 12. Let's Add a Dimension
     </a>
   </li>
-<li>
-    <a href="12-blending-again.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Blending Shapes (Again!)
+
+  <li>
+    <a href="12-combining-again.html">
+      <span class="done-mark"></span> 13. Combining Shapes II
+    </a>
+  </li>
+
+  <li>
+    <a href="13-blending-again.html">
+      <span class="done-mark"></span> 14. Blending Shapes II
+    </a>
+  </li>
+
+  <li>
+    <a href="14-repeating-space.html">
+      <span class="done-mark"></span> 15. Repeating Space II
+    </a>
+  </li>
+
+  <li>
+    <a href="15-repeating-space.html">
+      <span class="done-mark"></span> 16. Repeating Space III
     </a>
   </li>
       </ul>
@@ -104,6 +131,32 @@
         <div class="checker"><span>Waiting...</span></div>
       </div>
       <main class="text">
+<p>Shader programming leans on a lot of maths to get things done, so much so that most of the code you&apos;ll write deals <em>only</em> with numbers.</p>
+<p>That&apos;s OK though! Often the math is deceptively simple, or you can copy/paste the hard bits from kind folks online such as <a href="http://www.iquilezles.org/">&#xCD;&#xF1;igo Qu&#xED;lez</a> until it gets easier. Before you know it you&apos;ll be running circles around Linear Algebra without even needing to know what Linear Algebra <em>is</em>.</p>
+<h2 id="finding-the-midpoint">Finding the Midpoint</h2>
+<p>In addition to colors, vectors can also be used to store <em>positions</em>, like we can see in the example on the left.</p>
+<p>The midpoint is just the average of two values, e.g.:</p>
+<p><code>(x1 + x2) / 2</code></p>
+<p>To calculate the midpoint of a vector, you just have to calculate the midpoint of each of its values:</p>
+<p><code>vec2((p1.x + p2.x) / 2.0, (p1.y + p2.y) / 2.0);</code></p>
+<p>That&apos;s a little verbose though. Can we make it shorter?</p>
+<h2 id="piecewise-operations">Piecewise Operations</h2>
+<p>You can treat vectors a little like normal numbers: they can be added, multiplied, divided and subtracted just the same in GLSL!</p>
+<ul>
+<li><code>p1 + p2 == vec2(p1.x + p2.x, p1.y + p2.y)</code></li>
+<li><code>p1 - p2 == vec2(p1.x - p2.x, p1.y - p2.y)</code></li>
+<li><code>p1 * p2 == vec2(p1.x * p2.x, p1.y * p2.y)</code></li>
+<li><code>p1 / p2 == vec2(p1.x / p2.x, p1.y / p2.y)</code></li>
+</ul>
+<p>This is called a <em>piecewise operation</em>, because it is applied to each <em>piece</em> of the vector individually.</p>
+<p>You can even apply a piecewise operation to a vector using <code>float</code>, e.g.:</p>
+<ul>
+<li><code>p1 + 1.0 == vec2(p1.x + 1.0, p2.x + 1.0)</code></li>
+<li><code>p1 - 1.0 == vec2(p1.x - 1.0, p2.x - 1.0)</code></li>
+<li><code>p1 * 5.0 == vec2(p1.x * 5.0, p2.x * 5.0)</code></li>
+<li><code>p1 / 5.0 == vec2(p1.x / 5.0, p2.x / 5.0)</code></li>
+</ul>
+<p>The rest, I&apos;ll leave up to you...</p>
 </main>
     </div>
     <pre id="chapter-data" hidden>{"prefix":"uniform float iGlobalTime;\nuniform vec2 iResolution;\n\nfloat shape_line(vec2 p, vec2 a, vec2 b);\nfloat shape_segment(vec2 p, vec2 a, vec2 b);\nfloat aastep(float threshold, float value);\n","suffix":"void main() {\n  vec2 uv = 2.0 * gl_FragCoord.xy / iResolution - 1.0;\n  vec2 p1 = vec2(cos(iGlobalTime * 0.05), sin(iGlobalTime * 0.05)) * 0.9;\n  vec2 p2 = vec2(cos(iGlobalTime * 0.06), sin(iGlobalTime * 0.06)) * -0.3;\n  vec2 p3 = midpoint(p1, p2);\n\n  float d = shape_segment(uv, p1, p2) - 0.01;\n  d = min(d, length(uv - p1) - 0.05);\n  d = min(d, length(uv - p2) - 0.05);\n  d = min(d, length(uv - p3) - 0.1);\n\n  float d2 = 5.0;\n  d2 = min(d2, shape_line(uv, vec2(1, 0), vec2(-1, 0)) - 0.005);\n  d2 = min(d2, shape_line(uv, vec2(0, 1), vec2(0, -1)) - 0.005);\n\n  vec3 color = vec3(1);\n\n  color -= 1.0 - aastep(0.0, d);\n  color -= (1.0 - aastep(0.0, d2)) * vec3(0, 0.35, 0.4);\n  gl_FragColor = vec4(color, 1);\n}\n\nfloat shape_line(vec2 p, vec2 a, vec2 b) {\n  vec2 dir = b - a;\n  return abs(dot(normalize(vec2(dir.y, -dir.x)), a - p));\n}\n\nfloat aastep(float threshold, float value) {\n  #ifdef GL_OES_standard_derivatives\n    float afwidth = length(vec2(dFdx(value), dFdy(value))) * 0.70710678118654757;\n    return smoothstep(threshold-afwidth, threshold+afwidth, value);\n  #else\n    return step(threshold, value);\n  #endif\n}\n\nfloat shape_segment(vec2 p, vec2 a, vec2 b) {\n  float d = shape_line(p, a, b);\n  float d0 = dot(p - b, b - a);\n  float d1 = dot(p - a, b - a);\n  return d1 < 0.0 ? length(a - p) : d0 > 0.0 ? length(b - p) : d;\n}\n","question":"//\n// Get the midpoint of `p1` and `p2` *without* using\n// vec2() or any swizzling :O\n//\nvec2 midpoint(vec2 p1, vec2 p2) {\n  return vec2(0.0);\n}\n","solution":"vec2 midpoint(vec2 p1, vec2 p2) {\n  return (p1 + p2) * 0.5;\n}\n"}</pre>

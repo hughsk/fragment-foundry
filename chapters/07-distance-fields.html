@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Distance Fields | Fragment Foundry</title>
+    <title>Distance Functions | Fragment Foundry</title>
     <link rel="stylesheet" href="../index.css">
   </head>
   <body class="canvas-hidden" data-chapter="07-distance-fields">
@@ -13,84 +13,111 @@
           <div class="notch mid"></div>
           <div class="notch bot"></div>
         </a>
-        Distance Fields
+        Distance Functions
       </h1>
     </header>
     <nav>
       <ul>
-        <li>
+        
+  <li>
     <a href="01-hello-world.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Hello World!
+      <span class="done-mark"></span> 00. Hello World!
     </a>
   </li>
-<li>
-    <a href="02-syntax.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Basic Syntax
-    </a>
-  </li>
-<li>
+
+  <li>
     <a href="03-rgb.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> RGB Color
+      <span class="done-mark"></span> 01. RGBA Color
     </a>
   </li>
-<li>
+
+  <li>
     <a href="04-swizzling.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Swizzling
+      <span class="done-mark"></span> 02. Swizzling
     </a>
   </li>
-<li>
+
+  <li>
     <a href="04b-maths-sorry.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Maths; Sorry!
+      <span class="done-mark"></span> 03. Maths; Sorry!
     </a>
   </li>
-<li>
+
+  <li>
     <a href="05-square.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Let's Draw a Square
+      <span class="done-mark"></span> 04. Let's Draw a Square
     </a>
   </li>
-<li>
+
+  <li>
     <a href="06-circle.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Vectors and Builtins
+      <span class="done-mark"></span> 05. Vectors and Builtins
     </a>
   </li>
-<li>
+
+  <li>
     <a href="07-distance-fields.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Distance Fields
+      <span class="done-mark"></span> 06. Distance Functions
     </a>
   </li>
-<li>
+
+  <li>
     <a href="08-moving-shapes.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Moving Shapes
+      <span class="done-mark"></span> 07. Moving Shapes
     </a>
   </li>
-<li>
+
+  <li>
     <a href="09-combining-shapes.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Combining Shapes
+      <span class="done-mark"></span> 08. Combining Shapes
     </a>
   </li>
-<li>
+
+  <li>
     <a href="09b-blending-shapes.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Blending Shapes
+      <span class="done-mark"></span> 09. Blending Shapes
     </a>
   </li>
-<li>
+
+  <li>
     <a href="10-repeating-space.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Repeating Space
+      <span class="done-mark"></span> 10. Repeating Space
     </a>
   </li>
-<li>
+
+  <li>
     <a href="10b-primitives.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Primitives
+      <span class="done-mark"></span> 11. Primitives
     </a>
   </li>
-<li>
+
+  <li>
     <a href="11-add-a-dimension.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Let's Add a Dimension
+      <span class="done-mark"></span> 12. Let's Add a Dimension
     </a>
   </li>
-<li>
-    <a href="12-blending-again.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Blending Shapes (Again!)
+
+  <li>
+    <a href="12-combining-again.html">
+      <span class="done-mark"></span> 13. Combining Shapes II
+    </a>
+  </li>
+
+  <li>
+    <a href="13-blending-again.html">
+      <span class="done-mark"></span> 14. Blending Shapes II
+    </a>
+  </li>
+
+  <li>
+    <a href="14-repeating-space.html">
+      <span class="done-mark"></span> 15. Repeating Space II
+    </a>
+  </li>
+
+  <li>
+    <a href="15-repeating-space.html">
+      <span class="done-mark"></span> 16. Repeating Space III
     </a>
   </li>
       </ul>
@@ -104,9 +131,20 @@
         <div class="checker"><span>Waiting...</span></div>
       </div>
       <main class="text">
+<p>Drawing out shapes with booleans is all well and good, but it&apos;s not very flexible. There&apos;s another technique which allows us a whole bunch of flexibility, and it&apos;s the trick behind most of the demos you&apos;ll see on <a href="https://shadertoy.com/">Shadertoy</a>.</p>
+<h2 id="signed-distance-functions">Signed Distance Functions</h2>
+<p>Yep, those words probably make a lot less sense when they&apos;re put together like that.</p>
+<p>To start: a <strong>distance function</strong> takes a point as input and returns the distance from a surface as output. In GLSL, you&apos;d mark up a 2D Distance Function like so:</p>
+<p><code>float distanceFn(vec2 position);</code></p>
+<p>A <strong>signed distance function</strong> (SDF) is very similar, but it returns a <em>negative</em> value when it&apos;s inside the surface. You can now very quickly draw out that shape in 2D by checking if the SDF&apos;s value is less than zero.</p>
+<p>Here&apos;s an SDF for a point at <code>(0, 0)</code>:</p>
+<p><code>length(position);</code></p>
+<p>You can subtract values from the SDF to make it grow outwards. This way you can make a circle at <code>(0, 0)</code>:</p>
+<p><code>length(position) - 1.0;</code></p>
+<p>Try it out with different values in the exercise!</p>
 </main>
     </div>
-    <pre id="chapter-data" hidden>{"prefix":"vec3 draw_line(float d);\nfloat draw_solid(float d);\nvec3 draw_distance(float d, vec2 p);\n","suffix":"vec3 draw_line(float d) {\n  const float aa = 3.0;\n  const float thickness = 0.0025;\n  return vec3(smoothstep(0.0, aa / iResolution.y, max(0.0, abs(d) - thickness)));\n}\n\nfloat draw_solid(float d) {\n  return smoothstep(0.0, 3.0 / iResolution.y, max(0.0, d));\n}\n\nvec3 draw_distance(float d, vec2 p) {\n  float t = clamp(d * 0.85, 0.0, 1.0);\n  vec3 grad = mix(vec3(1, 0.8, 0.5), vec3(0.3, 0.8, 1), t);\n\n  float d0 = abs(1.0 - draw_line(mod(d + 0.1, 0.2) - 0.1).x);\n  float d1 = abs(1.0 - draw_line(mod(d + 0.025, 0.05) - 0.025).x);\n  float d2 = abs(1.0 - draw_line(d).x);\n  vec3 rim = vec3(max(d2 * 0.85, max(d0 * 0.25, d1 * 0.06125)));\n\n  grad -= rim;\n  grad -= mix(vec3(0.05, 0.35, 0.35), vec3(0.0), draw_solid(d));\n\n  return grad;\n}\n","question":"uniform vec2 iResolution;\nuniform float iGlobalTime;\n\n//\n// Let's make a distance field!\n//\n// We'll start with a circle. Its center should be at\n// `point` == (0, 0), and its `radius` should match the value\n// passed into `distanceFromCircle`.\n//\nfloat distanceFromCircle(vec2 point, float radius) {\n  return 0.0;\n}\n\nvoid main() {\n  vec2 uv = 2.0 * gl_FragCoord.xy / iResolution.xy - 1.0;\n  float radius = (sin(iGlobalTime * 0.25) * 0.5 + 0.5) * 0.5 + 0.3;\n  float dist = distanceFromCircle(uv, radius);\n\n  // draw_distance is a little utility we're using from\n  // https://www.shadertoy.com/view/XsyGRW\n  //\n  // It'll draw out your distance field for you, showing\n  // negative distances in a dark orange and positive distances\n  // in yellow -> blue.\n  gl_FragColor = vec4(draw_distance(dist, uv), 1);\n}\n","solution":"uniform vec2 iResolution;\nuniform float iGlobalTime;\n\nfloat distanceFromCircle(vec2 point, float radius) {\n  return length(point) - radius;\n}\n\nvoid main() {\n  vec2 uv = 2.0 * gl_FragCoord.xy / iResolution.xy - 1.0;\n  float radius = (sin(iGlobalTime * 0.25) * 0.5 + 0.5) * 0.5 + 0.3;\n  float dist = distanceFromCircle(uv, radius);\n\n  gl_FragColor = vec4(draw_distance(dist, uv), 1);\n}\n"}</pre>
+    <pre id="chapter-data" hidden>{"prefix":"vec3 draw_line(float d);\nfloat draw_solid(float d);\nvec3 draw_distance(float d, vec2 p);\n","suffix":"vec3 draw_line(float d) {\n  const float aa = 3.0;\n  const float thickness = 0.0025;\n  return vec3(smoothstep(0.0, aa / iResolution.y, max(0.0, abs(d) - thickness)));\n}\n\nfloat draw_solid(float d) {\n  return smoothstep(0.0, 3.0 / iResolution.y, max(0.0, d));\n}\n\nvec3 draw_distance(float d, vec2 p) {\n  float t = clamp(d * 0.85, 0.0, 1.0);\n  vec3 grad = mix(vec3(1, 0.8, 0.5), vec3(0.3, 0.8, 1), t);\n\n  float d0 = abs(1.0 - draw_line(mod(d + 0.1, 0.2) - 0.1).x);\n  float d1 = abs(1.0 - draw_line(mod(d + 0.025, 0.05) - 0.025).x);\n  float d2 = abs(1.0 - draw_line(d).x);\n  vec3 rim = vec3(max(d2 * 0.85, max(d0 * 0.25, d1 * 0.06125)));\n\n  grad -= rim;\n  grad -= mix(vec3(0.05, 0.35, 0.35), vec3(0.0), draw_solid(d));\n\n  return grad;\n}\n","question":"uniform vec2 iResolution;\nuniform float iGlobalTime;\n\n//\n// Let's make a distance function!\n//\n// We'll start with a circle. Its center should be at\n// `point` == (0, 0), and its `radius` should match the value\n// passed into `distanceFromCircle`.\n//\nfloat distanceFromCircle(vec2 point, float radius) {\n  return 0.0;\n}\n\nvoid main() {\n  vec2 uv = 2.0 * gl_FragCoord.xy / iResolution.xy - 1.0;\n  float radius = (sin(iGlobalTime * 0.25) * 0.5 + 0.5) * 0.5 + 0.3;\n  float dist = distanceFromCircle(uv, radius);\n\n  // draw_distance is a little utility we're using from\n  // https://www.shadertoy.com/view/XsyGRW\n  //\n  // It'll draw out your distance function for you, showing\n  // negative distances in a dark orange and positive distances\n  // in yellow -> blue.\n  gl_FragColor = vec4(draw_distance(dist, uv), 1);\n}\n","solution":"uniform vec2 iResolution;\nuniform float iGlobalTime;\n\nfloat distanceFromCircle(vec2 point, float radius) {\n  return length(point) - radius;\n}\n\nvoid main() {\n  vec2 uv = 2.0 * gl_FragCoord.xy / iResolution.xy - 1.0;\n  float radius = (sin(iGlobalTime * 0.25) * 0.5 + 0.5) * 0.5 + 0.3;\n  float dist = distanceFromCircle(uv, radius);\n\n  gl_FragColor = vec4(draw_distance(dist, uv), 1);\n}\n"}</pre>
     <script type="text/javascript" src="../bundle.js"></script>
   </body>
 </html>

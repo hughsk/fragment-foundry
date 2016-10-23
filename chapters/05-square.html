@@ -18,79 +18,106 @@
     </header>
     <nav>
       <ul>
-        <li>
+        
+  <li>
     <a href="01-hello-world.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Hello World!
+      <span class="done-mark"></span> 00. Hello World!
     </a>
   </li>
-<li>
-    <a href="02-syntax.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Basic Syntax
-    </a>
-  </li>
-<li>
+
+  <li>
     <a href="03-rgb.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> RGB Color
+      <span class="done-mark"></span> 01. RGBA Color
     </a>
   </li>
-<li>
+
+  <li>
     <a href="04-swizzling.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Swizzling
+      <span class="done-mark"></span> 02. Swizzling
     </a>
   </li>
-<li>
+
+  <li>
     <a href="04b-maths-sorry.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Maths; Sorry!
+      <span class="done-mark"></span> 03. Maths; Sorry!
     </a>
   </li>
-<li>
+
+  <li>
     <a href="05-square.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Let's Draw a Square
+      <span class="done-mark"></span> 04. Let's Draw a Square
     </a>
   </li>
-<li>
+
+  <li>
     <a href="06-circle.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Vectors and Builtins
+      <span class="done-mark"></span> 05. Vectors and Builtins
     </a>
   </li>
-<li>
+
+  <li>
     <a href="07-distance-fields.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Distance Fields
+      <span class="done-mark"></span> 06. Distance Functions
     </a>
   </li>
-<li>
+
+  <li>
     <a href="08-moving-shapes.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Moving Shapes
+      <span class="done-mark"></span> 07. Moving Shapes
     </a>
   </li>
-<li>
+
+  <li>
     <a href="09-combining-shapes.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Combining Shapes
+      <span class="done-mark"></span> 08. Combining Shapes
     </a>
   </li>
-<li>
+
+  <li>
     <a href="09b-blending-shapes.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Blending Shapes
+      <span class="done-mark"></span> 09. Blending Shapes
     </a>
   </li>
-<li>
+
+  <li>
     <a href="10-repeating-space.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Repeating Space
+      <span class="done-mark"></span> 10. Repeating Space
     </a>
   </li>
-<li>
+
+  <li>
     <a href="10b-primitives.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Primitives
+      <span class="done-mark"></span> 11. Primitives
     </a>
   </li>
-<li>
+
+  <li>
     <a href="11-add-a-dimension.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Let's Add a Dimension
+      <span class="done-mark"></span> 12. Let's Add a Dimension
     </a>
   </li>
-<li>
-    <a href="12-blending-again.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Blending Shapes (Again!)
+
+  <li>
+    <a href="12-combining-again.html">
+      <span class="done-mark"></span> 13. Combining Shapes II
+    </a>
+  </li>
+
+  <li>
+    <a href="13-blending-again.html">
+      <span class="done-mark"></span> 14. Blending Shapes II
+    </a>
+  </li>
+
+  <li>
+    <a href="14-repeating-space.html">
+      <span class="done-mark"></span> 15. Repeating Space II
+    </a>
+  </li>
+
+  <li>
+    <a href="15-repeating-space.html">
+      <span class="done-mark"></span> 16. Repeating Space III
     </a>
   </li>
       </ul>
@@ -104,19 +131,23 @@
         <div class="checker"><span>Waiting...</span></div>
       </div>
       <main class="text">
-<pre><code class="lang-glsl">#pragma display
-uniform vec2 screenSize;
-
-void main() {
-  bool inBox = false;
-
-  if (inBox) {
-    gl_FragColor = vec4(0, 0, 0, 1);
-  } else {
-    gl_FragColor = vec4(1, 1, 1, 1);
-  }
-}
-</code></pre>
+<p>OK, time to start drawing things proper!</p>
+<p>Fragment shaders are run on each pixel: they&apos;re not at all aware of their surrounding pixels. This is a challenging constraint at times, but also why they&apos;re so speedy.</p>
+<h2 id="boolean-comparisons">Boolean Comparisons</h2>
+<p>You can compare <code>float</code> values (but not vectors) using run-of-the-mill boolean operators, e.g.:</p>
+<ul>
+<li><code>bool value = uv.x &gt; 1.05;</code></li>
+<li><code>bool value = uv.x &lt;= 0.0;</code></li>
+<li><code>bool value = uv.x != 0.5;</code></li>
+<li><code>bool value = uv.y != 0.0 &amp;&amp; uv.x != 0.0;</code></li>
+<li><code>bool value = uv.y != 0.0 || uv.x != 0.0;</code></li>
+</ul>
+<h2 id="scaling-to-fit">Scaling to Fit</h2>
+<p>Fragment shaders also don&apos;t have much to use to find out where they are on the screen either. <code>gl_FragCoord.xy</code> will give you the exact position in pixels, but if you resize the screen the size of the object won&apos;t change to fit it.</p>
+<p>So we pass in a <em>uniform</em> value that contains the size, or resolution, of the screen. A uniform is a value passed in from JavaScript that is the same for every pixel in the shader. It&apos;s useful for giving the fragment shader some context to work with: for example, you might also pass in the time in seconds to animate the output.</p>
+<p>By dividing <code>gl_FragCoord.xy</code> by <code>iResolution</code>, we can get a value between 0 and 1 for the pixel&apos;s position on the screen:</p>
+<p><code>vec2 p = gl_FragCoord.xy / iResolution;</code></p>
+<p>Note that in our example we&apos;ve scaled it slightly differently: the top-left is <code>vec2(-1, -1)</code> and the bottom-right is <code>vec2(+1, +1)</code>.</p>
 </main>
     </div>
     <pre id="chapter-data" hidden>{"prefix":"","suffix":"","question":"uniform vec2 iResolution;\n\n//\n// Let's draw a box in the center of the screen!\n//\n// It should start where uv == (-0.5, -0.5) and finish\n// where uv == (+0.5, +0.5). Change the `isBox` function\n// to return `true` when it's within those bounds.\n//\nbool inBox(vec2 uv) {\n  return false;\n}\n\nvoid main() {\n  vec2 uv = 2.0 * gl_FragCoord.xy / iResolution.xy - 1.0;\n  if (inBox(uv)) {\n    gl_FragColor = vec4(1, 0.6, 0.5, 1);\n  } else {\n    gl_FragColor = vec4(0.5, 0.8, 1, 1);\n  }\n}\n","solution":"uniform vec2 iResolution;\n\nbool inBox(vec2 uv) {\n  return uv.x < 0.5 && uv.x > -0.5 && uv.y < 0.5 && uv.y > -0.5;\n}\n\nvoid main() {\n  vec2 uv = 2.0 * gl_FragCoord.xy / iResolution.xy - 1.0;\n  if (inBox(uv)) {\n    gl_FragColor = vec4(1, 0.6, 0.5, 1);\n  } else {\n    gl_FragColor = vec4(0.5, 0.8, 1, 1);\n  }\n}\n"}</pre>

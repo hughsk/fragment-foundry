@@ -18,79 +18,106 @@
     </header>
     <nav>
       <ul>
-        <li>
+        
+  <li>
     <a href="01-hello-world.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Hello World!
+      <span class="done-mark"></span> 00. Hello World!
     </a>
   </li>
-<li>
-    <a href="02-syntax.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Basic Syntax
-    </a>
-  </li>
-<li>
+
+  <li>
     <a href="03-rgb.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> RGB Color
+      <span class="done-mark"></span> 01. RGBA Color
     </a>
   </li>
-<li>
+
+  <li>
     <a href="04-swizzling.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Swizzling
+      <span class="done-mark"></span> 02. Swizzling
     </a>
   </li>
-<li>
+
+  <li>
     <a href="04b-maths-sorry.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Maths; Sorry!
+      <span class="done-mark"></span> 03. Maths; Sorry!
     </a>
   </li>
-<li>
+
+  <li>
     <a href="05-square.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Let's Draw a Square
+      <span class="done-mark"></span> 04. Let's Draw a Square
     </a>
   </li>
-<li>
+
+  <li>
     <a href="06-circle.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Vectors and Builtins
+      <span class="done-mark"></span> 05. Vectors and Builtins
     </a>
   </li>
-<li>
+
+  <li>
     <a href="07-distance-fields.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Distance Fields
+      <span class="done-mark"></span> 06. Distance Functions
     </a>
   </li>
-<li>
+
+  <li>
     <a href="08-moving-shapes.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Moving Shapes
+      <span class="done-mark"></span> 07. Moving Shapes
     </a>
   </li>
-<li>
+
+  <li>
     <a href="09-combining-shapes.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Combining Shapes
+      <span class="done-mark"></span> 08. Combining Shapes
     </a>
   </li>
-<li>
+
+  <li>
     <a href="09b-blending-shapes.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Blending Shapes
+      <span class="done-mark"></span> 09. Blending Shapes
     </a>
   </li>
-<li>
+
+  <li>
     <a href="10-repeating-space.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Repeating Space
+      <span class="done-mark"></span> 10. Repeating Space
     </a>
   </li>
-<li>
+
+  <li>
     <a href="10b-primitives.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Primitives
+      <span class="done-mark"></span> 11. Primitives
     </a>
   </li>
-<li>
+
+  <li>
     <a href="11-add-a-dimension.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Let's Add a Dimension
+      <span class="done-mark"></span> 12. Let's Add a Dimension
     </a>
   </li>
-<li>
-    <a href="12-blending-again.html">
-      <span class="done-mark">&#x2713;&nbsp;&nbsp;</span> Blending Shapes (Again!)
+
+  <li>
+    <a href="12-combining-again.html">
+      <span class="done-mark"></span> 13. Combining Shapes II
+    </a>
+  </li>
+
+  <li>
+    <a href="13-blending-again.html">
+      <span class="done-mark"></span> 14. Blending Shapes II
+    </a>
+  </li>
+
+  <li>
+    <a href="14-repeating-space.html">
+      <span class="done-mark"></span> 15. Repeating Space II
+    </a>
+  </li>
+
+  <li>
+    <a href="15-repeating-space.html">
+      <span class="done-mark"></span> 16. Repeating Space III
     </a>
   </li>
       </ul>
@@ -105,10 +132,21 @@
       </div>
       <main class="text">
 <p>Hey, welcome! This is a self-guided workshop introducing you to the magic of <em>fragment shaders</em>.</p>
+<h2 id="how-this-works">How This Works</h2>
+<p>Each exercise in the workshop has a few parts. Here you&apos;ll find some background information that&apos;ll help you work through the task.</p>
+<p>In the middle, you&apos;ll see a shader editor: your goal is to fix the shader as described in the code. You can see a preview on the left, both for your current answer and for the correct one. Once they match up, you&apos;ll pass the lesson.</p>
+<p>Good luck!</p>
 <h2 id="wait-shaders-">Wait, Shaders?</h2>
-<!-- Shaders are tiny programs that run on your graphics card (GPU, for short). Most programs we write and/or use today run on the CPU -->
-<h2 id="exercise">Exercise</h2>
-<p>Your first task is to change this shader from drawing red to green.</p>
+<p>Most of the software we write and run &#x2014; JavaScript, C#, Java, etc. &#x2014; is executed on the computer&apos;s Central Processing Unit (CPU). This is your computer&apos;s brain, responsible for generic computation.</p>
+<p>However there&apos;s another processing unit on your machine available to you: the Graphics Processing Unit (GPU). It&apos;s designed from the ground up to be <em>really</em> good at crunching numbers for computer graphics, and can do so much faster than your CPU. Its performance boost comes from the hardware. While a CPU has 2&#x2013;8 big cores, a GPU has hundreds or even thousands of small ones. This makes it great at running code in <em>parallel</em>: provided a thread doesn&apos;t need to know anything about its neighbours, you can run a whole bunch of them really quickly at the same time without waiting for the others to finish.</p>
+<p>This concept is perhaps better explained by Mythbusters&apos; Adam Savage and Jamie Hyneman:</p>
+<iframe width="400" height="250" src="https://www.youtube.com/embed/-P28LKWTzrI" frameborder="0" allowfullscreen></iframe>
+
+<p>Shaders are the tiny programs that run on your GPU. There&apos;s a bunch of different types of shaders and shader languages with different purposes, but today we&apos;re looking at GLSL fragment shaders.</p>
+<p>GLSL is the shader language used for WebGL, meaning we can run it here in the browser for you.</p>
+<p>Fragment shaders are responsible for giving each pixel their colour. While they were originally intended simply for applying lighting effects to objects, they&apos;ve since been pushed to their limits in communities such as <a href="https://www.shadertoy.com/">Shadertoy</a>. Take a look: all of the demos there are drawn completely in code. No assets to be seen! This is a popular technique in the demoscene for creating elaborate scenes with a small amount of code.</p>
+<p>This one fits in 4 kilobytes:</p>
+<iframe width="400" height="250" src="https://www.youtube.com/embed/SFoyJED5A4s" frameborder="0" allowfullscreen></iframe>
 </main>
     </div>
     <pre id="chapter-data" hidden>{"prefix":"","suffix":"","question":"//\n// Change this shader (displayed in the top-left box) to\n// make it green instead of red. The correct answer's result\n// is displayed in the bottom-left box.\n//\n// Note you might want to read through the information on the\n// right to get familiar with the basics first!\n//\nvec4 green = vec4(0, 1, 0, 1);\nvec4 blue = vec4(0, 0, 1, 1);\nvec4 red = vec4(1, 0, 0, 1);\n\nvoid main() {\n  gl_FragColor = red;\n}\n","solution":"vec4 green = vec4(0, 1, 0, 1);\nvec4 blue = vec4(0, 0, 1, 1);\nvec4 red = vec4(1, 0, 0, 1);\n\nvoid main() {\n  gl_FragColor = green;\n}\n"}</pre>
