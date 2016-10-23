@@ -279,3 +279,20 @@ main a {
   border-bottom: 1px solid #0080FF;
   text-decoration: none;
 }
+
+main h3 {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+main pre {
+  line-height: 1.5em;
+}
+main pre code {
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: #555;
+}

@@ -4,7 +4,8 @@ uniform float iGlobalTime;
 
 //
 // Modify `point` so that we get circles filling the screen.
-// There should be one circle in each direction every 0.5 units.
+// There should be one circle in each direction every 0.5 units,
+// and the original circle should remain in the center of the screen.
 //
 float distanceFromCircle(vec2 point, float radius) {
   return length(point) - radius;

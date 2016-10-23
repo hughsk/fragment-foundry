@@ -8,7 +8,7 @@ uniform float iGlobalTime;
 
 //
 // Blend two circles together using a polynomial smooth minimum,
-// using a power of 0.1
+// using a "smoothness" of 0.1
 //
 float distanceField(vec2 point, vec2 origin1, vec2 origin2, float radius) {
   float d1 = length(point - origin1) - radius;
