@@ -23,7 +23,7 @@ float getDistanceFromPoint(vec3 point) {
     dist * sin(angle)
   );
 
-  return length(point - offset) - 0.1;
+  return length(point - offset) - radius;
 }
 #pragma prefix
 uniform vec2 iResolution;
