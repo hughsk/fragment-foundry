@@ -65,8 +65,46 @@ float intersectPlane(vec3 ro, vec3 rd, vec3 nor, float dist) {
   return t;
 }
 #pragma suffix
+float beckmannDistribution(float x, float roughness) {
+  float NdotH = max(x, 0.0001);
+  float cos2Alpha = NdotH * NdotH;
+  float tan2Alpha = (cos2Alpha - 1.0) / cos2Alpha;
+  float roughness2 = roughness * roughness;
+  float denom = 3.141592653589793 * roughness2 * cos2Alpha * cos2Alpha;
+  return exp(tan2Alpha / roughness2) / denom;
+}
+
+float cookTorranceSpecular(
+  vec3 lightDirection,
+  vec3 viewDirection,
+  vec3 surfaceNormal,
+  float roughness,
+  float fresnel) {
+
+  float VdotN = max(dot(viewDirection, surfaceNormal), 0.0);
+  float LdotN = max(dot(lightDirection, surfaceNormal), 0.0);
+
+  //Half angle vector
+  vec3 H = normalize(lightDirection + viewDirection);
+
+  //Geometric term
+  float NdotH = max(dot(surfaceNormal, H), 0.0);
+  float VdotH = max(dot(viewDirection, H), 0.000001);
+  float x = 2.0 * NdotH / VdotH;
+  float G = min(1.0, min(x * VdotN, x * LdotN));
+
+  //Distribution term
+  float D = beckmannDistribution(NdotH, roughness);
+
+  //Fresnel term
+  float F = pow(1.0 - VdotN, fresnel);
+
+  //Multiply terms and done
+  return  G * F * D / max(3.14159265 * VdotN * LdotN, 0.000001);
+}
+
 void main() {
-  float time = iGlobalTime * 0.1;
+  float time = iGlobalTime * 0.025;
   vec2 uv = 2.0 * gl_FragCoord.xy / iResolution - 1.0;
   vec3 ro = vec3(sin(time), 1.0, cos(time));
   vec3 ta = vec3(0);
@@ -85,15 +123,22 @@ void main() {
 
   if (tPlane > -0.5 && tPlane < t) {
     vec3 pos = ro + rd * tPlane;
-    gl_FragColor = vec4(draw_distance(getDistanceFromPoint(pos) + 0.05, pos.xz), 1);
+    gl_FragColor = vec4(draw_distance(getDistanceFromPoint(pos) - 0.0125, pos.xz), 1);
   } else
   if (t > maxd) {
     gl_FragColor = vec4(0, 0, 0, 1);
   } else {
     vec3 pos = ro + rd * t;
     vec3 normal = calcNormal(pos, 0.002);
+    vec3 ldir = normalize(vec3(0, 1, 0.2));
+    float mag = max(0.2, dot(normal, ldir));
 
-    gl_FragColor = vec4(normal * 0.5 + 0.5, 1);
+    mag = pow(mag, 0.3545);
+    mag *= 1.75;
+    //mag = 0.0;
+
+    gl_FragColor = vec4(mag * vec3(0.95, 0.45, 0.15), 1);
+    gl_FragColor.rgb += cookTorranceSpecular(ldir, -rd, normal, 1.0, 3.25) * 1.5;
   }
 }
 
@@ -116,7 +161,8 @@ vec3 draw_distance(float d, vec2 p) {
   float d2 = abs(1.0 - draw_line(d).x);
   vec3 rim = vec3(max(d2 * 0.85, max(d0 * 0.25, d1 * 0.06125)));
 
-  grad -= rim;
+  grad -= rim * clamp(1.25 - d, 0.0, 1.0);
+  grad -= 1.0 - clamp(1.25 - d * 0.25, 0.0, 1.0);
   grad -= mix(vec3(0.05, 0.35, 0.35), vec3(0.0), draw_solid(d));
 
   return grad;
